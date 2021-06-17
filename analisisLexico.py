@@ -1,1 +1,40 @@
 #Aqui se escribira el codigo del primer avance Analisis Lexico
+#palabras reservadas principales
+reserved = {
+    'await' : 'AWAIT',
+    'break' : 'BREAK',
+    'case' : 'CASE',
+    'catch' : 'CATCH',
+    'class' : 'CLASS',
+    'const' : 'CONST',
+    'continue' : 'CONTINUE',
+    'debugger' : 'DEBUGGER',
+    'default' : 'DEFAULT',
+    'delete' : 'DELETE',
+    'do' : 'DO',
+    'else' : 'ELSE',
+    'export' : 'EXPORT',
+    'extends' : 'EXTENDS',
+    'finally' : 'FINALLY',
+    'for' : 'FOR',
+    'function' : 'FUNCTION',
+    'if' : 'IF',
+    'import' : 'IMPORT',
+    'in' : 'IN',
+    'instanceof' : 'INSTANCEOF',
+    'new' : 'NEW',
+    'return' : 'RETURN',
+    'super' : 'SUPER',
+    'switch' : 'SWITCH',
+    'this' : 'THIS',
+    'throw' : 'THROW',
+    'try' : 'TRY',
+    'typeof' : 'TYPEOF',
+    'var' : 'VAR',
+    'void' : 'VOID',
+    'while' : 'WHILE',
+    'with' : 'WITH',
+    'yield' : 'YIELD'
+}
+
+
