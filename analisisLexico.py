@@ -23,6 +23,7 @@ tokens = (
 
 ) + tuple(reserved.values())
 # Regular expression rules for simple tokens
+
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
@@ -57,6 +58,7 @@ t_CLOSEPARE = r'\)'
 t_OPENBRA = r'\['
 t_CLOSEBRA = r'\]'
 t_COMMA = r','
+
 
 
 
