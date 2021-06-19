@@ -48,17 +48,18 @@ tokens = (
              'LPAREN',
              'RPAREN',
              'MOD',
-             'ID'
+             'ID',
              # Operadores de asignacion
-             'ASSIGN', 'ADICTASSI', 'ADMINUS', 'ADTIME', 'ADDIVIDE', 'ADMOOD', 'ADEXP'
+             'EQUAL', 'PLUS_EQUAL', 'MINUS_EQUAL', 'MUL_EQUAL',
+             'DIV_EQUAL', 'MOD_EQUAL',
              # Operadores logicos
-             'ANDE', 'ORE', 'NOTE'
+             'AND', 'OR', 'NOT',
              # Operadores de comparacion
-             'SAME', 'NOTSAME',
-             'GREATERTHAN', 'GREATEROREQUAL', 'LESSTHAN', 'LESSOREQUAL'
+             'ISEQUAL', 'IS_NOT_IDENTICAL',
+             'GREATER', 'GREATEREQUAL', 'LESS', 'LESSEQUAL', 'IS_IDENTICAL',
              # SIMBOLOS
-             'PERIOD', 'COLON', 'OPENKEY', 'CLOSEBRACE', 'OPENPAREN','CLOSEPARE',
-             'OPENBRA', 'CLOSEBRA', 'COMMA'
+             'PERIOD', 'COLON', 'LBLOCK', 'RBLOCK',
+             'LBRACKET', 'RBRACKET', 'COMMA'
          ) + tuple(reserved.values())
 t_PLUS = r'\+'
 t_MINUS = r'-'
@@ -67,34 +68,33 @@ t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_MOD = r'%'
-_ASSIGN = r'='
+t_EQUAL = r'='
 
-t_ADICTASSI = r'++'
-t_ADMINUS = r'-='
-t_ADTIME =  r'*='
-t_ADDIVIDE= r'/='
-t_ADMOOD = r'%='
-t_ADEXP = r'**=='
+t_PLUS_EQUAL = r'\+='
+t_MINUS_EQUAL = r'-='
+t_MUL_EQUAL = r'\*='
+t_DIV_EQUAL = r'/='
+t_MOD_EQUAL = r'%='
 
-t_ANDE = r'&&'
-t_ORE = r'||'
-t_NOTE = r'!'
 
-t_SAME = r'=='
-t_NOTSAME = r'!='
-t_GREATERTHAN = r'>'
-t_GREATEROREQUAL = r'>='
-t_LESSTHAN = r'<'
-t_LESSOREQUAL = r'<='
+#t_AND = r'&&'
+#t_OR = r'||'
+#t_NOT = r'!'
+
+t_ISEQUAL = r'=='
+t_IS_NOT_IDENTICAL = r'!='
+t_IS_IDENTICAL = r"==="
+t_GREATER = r'>'
+t_GREATEREQUAL = r'>='
+t_LESS = r'<'
+t_LESSEQUAL = r'<='
 
 t_PERIOD = r'\.'
 t_COLON = r';'
-t_OPENKEY = r'{'
-t_CLOSEBRACE = r'}'
-t_OPENPAREN = r'\('
-t_CLOSEPARE = r'\)'
-t_OPENBRA = r'\['
-t_CLOSEBRA = r'\]'
+t_LBLOCK = r'{'
+t_RBLOCK = r'}'
+t_LBRACKET = r'\['
+t_RBRACKET = r'\]'
 t_COMMA = r','
 
 # funciones
