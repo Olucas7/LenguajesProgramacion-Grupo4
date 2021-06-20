@@ -99,6 +99,16 @@ t_COMMA = r','
 
 # funciones
 
+def t_AND(t):
+    r'\&\&'
+    return t
+
+
+def t_OR(t):
+    r'\|\|'
+    return t
+
+
 def t_ID(t):
     r'[a-zA-Z_]\w+'
     t.type = reserved.get(t.value, 'ID')  # Check for reserved words
@@ -108,16 +118,35 @@ def t_NUMBER(t):
     r'\d+'
     t.value = int(t.value)
     return t
+
+def t_COMMENTS(t):
+    r'\/\*([^*]|\*[^\/])*(\*)+\/'
+    t.lexer.lineno += t.value.count('\n')
+
 # Define a rule so we can track line numbers
 def t_newline(t):
     r'\n+'
     t.lexer.lineno += len(t.value)
 # A string containing ignored characters (spaces and tabs)
 t_ignore = ' \t'
+
 # Error handling rule
 def t_error(t):
     print("Illegal character '%s'" % t.value[0])
     t.lexer.skip(1)
+
+def t_STRING(t):
+    r'(("[^"]*")|(\'[^\']*\'))'
+    return t
+
+def t_TRUE(t):
+    r'true'
+    return t
+
+def t_FALSE(t):
+    r'false'
+    return t
+
 def getTokens(lexer):
     while True:
         tok = lexer.token()
