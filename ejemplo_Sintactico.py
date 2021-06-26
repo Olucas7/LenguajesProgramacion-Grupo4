@@ -1,5 +1,5 @@
 import ply.yacc as yacc
-from analisisLexico import tokens
+from Ejemplo_Lexico import tokens
 def p_sentencias(p):
     '''sentencias : impresion
                     | expression'''

@@ -5,6 +5,7 @@ reserved = {
     'then' : 'THEN',
     'else' : 'ELSE',
     'while' : 'WHILE',
+    'print' : 'PRINT'
 }
 tokens = (
     'NUMBER',
@@ -15,7 +16,8 @@ tokens = (
     'LPAREN',
     'RPAREN',
     'MOD',
-    'ID'
+    'ID',
+    'MAYOR'
 ) + tuple(reserved.values())
 # Regular expression rules for simple tokens
 t_PLUS = r'\+'
@@ -25,6 +27,7 @@ t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_MOD = r'%'
+t_MAYOR = r'>'
 def t_ID(t):
     r'[a-zA-Z_]\w+'
     t.type = reserved.get(t.value, 'ID')  # Check for reserved words
@@ -52,10 +55,10 @@ def getTokens(lexer):
         print(tok)
 # Build the lexer
 lexer = lex.lex()
-linea=" "
-while linea!="":
-    linea=input(">>")
-    lexer.input(linea)
-    getTokens(lexer)
-# Tokenize
-print("Succesfull")
+# linea=" "
+# while linea!="":
+#     linea=input(">>")
+#     lexer.input(linea)
+#     getTokens(lexer)
+# # Tokenize
+# print("Succesfull")
