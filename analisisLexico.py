@@ -36,7 +36,9 @@ reserved = {
     'void': 'VOID',
     'while': 'WHILE',
     'with': 'WITH',
-    'yield': 'YIELD'
+    'yield': 'YIELD',
+    'alert' : 'ALERT'
+
 }
 # tokens
 tokens = (
@@ -59,7 +61,7 @@ tokens = (
              'GREATER', 'GREATEREQUAL', 'LESS', 'LESSEQUAL', 'IS_IDENTICAL',
              # SIMBOLOS
              'PERIOD', 'COLON', 'LBLOCK', 'RBLOCK',
-             'LBRACKET', 'RBRACKET', 'COMMA'
+             'LBRACKET', 'RBRACKET', 'COMMA', 'TWOPOINTS'
          ) + tuple(reserved.values())
 t_PLUS = r'\+'
 t_MINUS = r'-'
@@ -91,6 +93,7 @@ t_LESSEQUAL = r'<='
 
 t_PERIOD = r'\.'
 t_COLON = r';'
+t_TWOPOINTS = r':'
 t_LBLOCK = r'{'
 t_RBLOCK = r'}'
 t_LBRACKET = r'\['
@@ -110,7 +113,7 @@ def t_OR(t):
 
 
 def t_ID(t):
-    r'[a-zA-Z_]\w+'
+    r'(\$ | _ )[A-z0-9]+ | [A-z]+\w*'
     t.type = reserved.get(t.value, 'ID')  # Check for reserved words
     return t
 # A regular expression rule with some action code
