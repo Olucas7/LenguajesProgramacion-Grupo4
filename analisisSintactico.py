@@ -25,6 +25,12 @@ def p_expression_divide(p):
 def p_expression_mod(p):
     'expression : expression MOD term'
 
+
+def p_expression_var(p):
+    'expression : VAR ID'
+def p_expression_const(p):
+    'expression : CONST ID'
+
 def p_expression_logical(p):
     'expression : logical_expresion'
     p[0] = p[1]

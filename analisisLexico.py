@@ -37,7 +37,8 @@ reserved = {
     'while': 'WHILE',
     'with': 'WITH',
     'yield': 'YIELD',
-    'alert' : 'ALERT'
+    'alert' : 'ALERT',
+    'Map' : 'MAP'
 
 }
 # tokens
