@@ -25,6 +25,10 @@ reserved = {
     'in': 'IN',
     'instanceof': 'INSTANCEOF',
     'new': 'NEW',
+    'print': 'PRINT',
+    'private': 'PRIVATE',
+    'protected': 'PROTECTED',
+    'public': 'PUBLIC',
     'return': 'RETURN',
     'super': 'SUPER',
     'switch': 'SWITCH',
@@ -38,7 +42,10 @@ reserved = {
     'with': 'WITH',
     'yield': 'YIELD',
     'alert' : 'ALERT',
-    'Map' : 'MAP'
+    'Map' : 'MAP',
+    'true': 'TRUE',
+    'false' : 'FALSE'
+
 
 }
 # tokens
@@ -112,6 +119,9 @@ def t_OR(t):
     r'\|\|'
     return t
 
+def t_IDVAR(t):
+    r'\$[a-zA-Z0-9_][a-zA-Z0-9_]*'
+    return t
 
 def t_ID(t):
     r'(\$ | _ )[A-z0-9]+ | [A-z]+\w*'

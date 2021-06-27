@@ -1,9 +1,10 @@
 import ply.yacc as yacc
 from analisisLexico import tokens
+
+#Oscar Lucas
 def p_sentencias(p):
     '''sentencias : impresion
                     | expression'''
-
 
 def p_sentencias_if(p):
     'sentencias : IF LPAREN logical_expresion RPAREN'
@@ -24,7 +25,6 @@ def p_expression_divide(p):
     'expression : expression DIVIDE term'
 def p_expression_mod(p):
     'expression : expression MOD term'
-
 
 def p_expression_var(p):
     'expression : VAR ID'
@@ -81,6 +81,112 @@ def p_error(p):
         # Just discard the token and tell the parser it's okay.
     else:
         print("Syntax error at EOF")
+
+
+#Tatiana Yepez, parametros
+
+def p_javaScript_param(p):
+    '''javaScript_param : STRING
+                         | NUM
+                         | boolean
+                         | ARRAY
+                         | declareteFunction
+                         | p_callFunction
+
+
+    '''
+#Tatiana Yepez para funciones o parametros vacios
+def p_empty(p):
+    '''empty :'''
+    pass
+#Para Boolean
+
+def p_boolean(p):
+    '''boolean : TRUE
+             | FALSE
+        '''
+    pass
+#Modificadores
+def p_Modificador(p):
+    '''Modificador : PRIVATE
+             | PUBLIC
+            | PROTECTED
+    '''
+    pass
+def p_arrayDeclare(p):
+    '''arrayDeclare:  ARRAY LPAREN arrayValues RPAREN  '''
+
+    pass
+
+def p_arrayValues(p):
+    '''arrayValues:  arrayValue
+                    | arrayValue COMMA arrayValue'''
+    pass
+def p_arrayValue(p):
+    ''' arrayValue: factor '''  #como asigno un valor a un array ?
+
+
+
+#Tatiana Yepez para declaracion de variables
+def p_declaration(p):
+    '''declaration : var_declaration
+                    |declareteFunction
+                    | callFunction
+    '''
+    pass
+
+# Para declaracion de funciones
+def p_declareteFunction(p):
+    '''' declareteFunction: FUNCTION ID LPAREN params RPAREN
+                          | ID LPAREN params RPAREN ''' #funciones que retornen
+    pass
+
+#Tatiana llamar funciones
+def p_callFunction(p):
+    '''callFunction : ID LPAREN params RPAREN  
+                     | PRINT LPAREN javaScript_param RPAREN 
+                     
+                     ''' #faltan mas maneras de llamar funciones
+    pass
+
+def p_params(p):
+    '''params: paramList
+               | empty  '''
+    pass
+def p_param(p):
+    ''' param: IDVAR
+              | IDVAR LBRACKET RBRACKET
+              | term '''
+    pass
+def paramList(p):
+    '''paramList : param
+                  | param COMMA param_list '''
+    pass
+
+#Definir argumento
+
+def p_args(p):
+    ''' args: argslist
+            | empty
+            | VOID
+    '''
+    pass
+def p_argslist(p):
+    '''args_list : args_list COMMA expression
+                             | expression
+    '''
+    pass
+
+# para constructores
+def p_constructor(p):
+    '''constructor : ID LPAREN RPAREN
+                    | ID LPAREN args RPAREN
+    '''
+    pass
+
+
+
+
 """
 More information on these methods is as follows:
 parser.errok(). This resets the parser state so it doesn't think it's in error-recovery mode. This will prevent an error token from being generated and will reset the internal error counters so that the next syntax error will call p_error() again.
