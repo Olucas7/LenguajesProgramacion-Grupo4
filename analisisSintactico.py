@@ -89,7 +89,6 @@ def p_javaScript_param(p):
     '''javaScript_param : STRING
                          | NUM
                          | boolean
-                         | ARRAY
                          | declareteFunction
                          | p_callFunction
 
@@ -107,19 +106,29 @@ def p_boolean(p):
         '''
     pass
 
+def p_varType(p):
+    ''' varType : LET
+                | CONST
+                | VAR '''
+
 def p_arrayDeclare(p):
-    '''arrayDeclare:  ARRAY LPAREN arrayValues RPAREN  '''
+    '''arrayDeclare :  LBRACKET arrayValues RBRACKET
+                     | varType LBRACKET arrayValues RBRACKET  '''
 
     pass
 
 def p_arrayValues(p):
-    '''arrayValues:  arrayValue
+    '''arrayValues :  arrayValue
                     | arrayValue COMMA arrayValue'''
     pass
 def p_arrayValue(p):
-    ''' arrayValue: factor '''  #como asigno un valor a un array ?
-
-
+    ''' arrayValue :  LPAREN expression RPAREN
+                      | IDVAR
+                      | var
+                      | NUM
+                      | STRING
+                      | boolean
+                      | empty '''
 
 #Tatiana Yepez para declaracion de variables
 def p_declaration(p):
@@ -132,8 +141,12 @@ def p_declaration(p):
 # Para declaracion de funciones
 def p_declareteFunction(p):
     '''' declareteFunction: FUNCTION ID LPAREN params RPAREN
-                          |FUNCTION  ID LPAREN params RPAREN RETURN 
-                          ''' #funciones que retornen
+                          | FUNCTION  ID LPAREN params RPAREN sentencesCmpt '''
+    pass
+
+def p_sentencesCmpt(p):
+    '''sentencesCmpt : LBLOCK expresion RBLOCK
+                     | LBLOCK expresion RETURN RBLOCK  '''
     pass
 
 #Tatiana llamar funciones
@@ -150,7 +163,7 @@ def p_params(p):
 def p_param(p):
     ''' param: IDVAR
               | IDVAR LBRACKET RBRACKET
-              | term '''
+               '''
     pass
 def paramList(p):
     '''paramList : param
@@ -162,7 +175,6 @@ def paramList(p):
 def p_args(p):
     ''' args: argslist
             | empty
-            | VOID
     '''
     pass
 def p_argslist(p):

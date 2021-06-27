@@ -26,9 +26,6 @@ reserved = {
     'instanceof': 'INSTANCEOF',
     'new': 'NEW',
     'print': 'PRINT',
-    'private': 'PRIVATE',
-    'protected': 'PROTECTED',
-    'public': 'PUBLIC',
     'return': 'RETURN',
     'super': 'SUPER',
     'switch': 'SWITCH',
@@ -44,6 +41,7 @@ reserved = {
     'alert' : 'ALERT',
     'Map' : 'MAP',
     'true': 'TRUE',
+    'let' : 'LET',
     'false' : 'FALSE'
 
 
