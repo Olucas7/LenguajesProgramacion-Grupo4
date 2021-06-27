@@ -42,7 +42,9 @@ reserved = {
     'Map' : 'MAP',
     'true': 'TRUE',
     'let' : 'LET',
-    'false' : 'FALSE'
+    'false' : 'FALSE',
+    'push' : 'PUSH',
+    'pop' : 'POP'
 
 
 }

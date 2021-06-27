@@ -109,11 +109,19 @@ def p_boolean(p):
 def p_varType(p):
     ''' varType : LET
                 | CONST
-                | VAR '''
+                | VAR
+                 | empty '''
 
+#para declarar variables
+def p_varDeclaration(p):
+    '''varDeclaration : varType IDVAR  EQUAL  arrayDeclare COLON
+                    |   varType IDVAR EQUAL declareMap COLON '''
+    pass
+
+#declarar array
 def p_arrayDeclare(p):
     '''arrayDeclare :  LBRACKET arrayValues RBRACKET
-                     | varType LBRACKET arrayValues RBRACKET  '''
+                     '''
 
     pass
 
@@ -121,6 +129,7 @@ def p_arrayValues(p):
     '''arrayValues :  arrayValue
                     | arrayValue COMMA arrayValue'''
     pass
+
 def p_arrayValue(p):
     ''' arrayValue :  LPAREN expression RPAREN
                       | IDVAR
@@ -129,6 +138,25 @@ def p_arrayValue(p):
                       | STRING
                       | boolean
                       | empty '''
+    pass
+
+def p_methodArray(p):
+    ''' methodArray : PERIOD PUSH LPAREN arrayValues RPAREN
+                      | PERIOD UNSHIFT LPAREN arrayValues RPAREN
+                      | PERIOD POP LPAREN empty RPAREN '''
+
+
+def p_callMethodsArr(p):
+    '''callMethodsArr : IDVAR methodArray '''
+
+def p_declareMap (p) :
+    '''declareMap :  NEW MAP LPAREN iterable RPAREN
+                    '''
+
+def p_iterable(p):
+    '''iterable  :
+                     '''
+
 
 #Tatiana Yepez para declaracion de variables
 def p_declaration(p):
@@ -138,7 +166,7 @@ def p_declaration(p):
     '''
     pass
 
-# Para declaracion de funciones
+# Para crear las funciones
 def p_declareteFunction(p):
     '''' declareteFunction: FUNCTION ID LPAREN params RPAREN
                           | FUNCTION  ID LPAREN params RPAREN sentencesCmpt '''
@@ -152,7 +180,7 @@ def p_sentencesCmpt(p):
 #Tatiana llamar funciones
 def p_callFunction(p):
     '''callFunction : ID LPAREN params RPAREN  
-                     
+                    
                      ''' #faltan mas maneras de llamar funciones
     pass
 
