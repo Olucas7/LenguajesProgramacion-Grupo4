@@ -106,13 +106,7 @@ def p_boolean(p):
              | FALSE
         '''
     pass
-#Modificadores
-def p_Modificador(p):
-    '''Modificador : PRIVATE
-             | PUBLIC
-            | PROTECTED
-    '''
-    pass
+
 def p_arrayDeclare(p):
     '''arrayDeclare:  ARRAY LPAREN arrayValues RPAREN  '''
 
@@ -138,13 +132,13 @@ def p_declaration(p):
 # Para declaracion de funciones
 def p_declareteFunction(p):
     '''' declareteFunction: FUNCTION ID LPAREN params RPAREN
-                          | ID LPAREN params RPAREN ''' #funciones que retornen
+                          |FUNCTION  ID LPAREN params RPAREN RETURN 
+                          ''' #funciones que retornen
     pass
 
 #Tatiana llamar funciones
 def p_callFunction(p):
     '''callFunction : ID LPAREN params RPAREN  
-                     | PRINT LPAREN javaScript_param RPAREN 
                      
                      ''' #faltan mas maneras de llamar funciones
     pass
@@ -172,7 +166,7 @@ def p_args(p):
     '''
     pass
 def p_argslist(p):
-    '''args_list : args_list COMMA expression
+    '''argslist : argslist COMMA expression
                              | expression
     '''
     pass
