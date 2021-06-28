@@ -44,9 +44,11 @@ reserved = {
     'let' : 'LET',
     'false' : 'FALSE',
     'push' : 'PUSH',
-    'pop' : 'POP'
-
-
+    'pop' : 'POP',
+    'add' : 'ADD',
+    'delete' : 'DELETE',
+    'clear' : 'CLEAR',
+    'length' : 'LENGTH'
 }
 # tokens
 tokens = (
@@ -117,10 +119,6 @@ def t_AND(t):
 
 def t_OR(t):
     r'\|\|'
-    return t
-
-def t_IDVAR(t):
-    r'\$[a-zA-Z0-9_][a-zA-Z0-9_]*'
     return t
 
 def t_ID(t):

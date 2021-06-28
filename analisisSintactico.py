@@ -114,13 +114,21 @@ def p_varType(p):
 
 #para declarar variables
 def p_varDeclaration(p):
-    '''varDeclaration : varType IDVAR  EQUAL  arrayDeclare COLON
-                    |   varType IDVAR EQUAL declareMap COLON '''
+    '''varDeclaration : varType ID  EQUAL  arrayDeclare COLON
+                    |   varType ID EQUAL declareMap COLON
+                    |   varType ID EQUAL declareSet COLON '''
     pass
+
+#Llamar metodos de estructuras de datos
+def p_callMethods(p):
+    '''callMethods : ID methodArray COLON
+                     | ID methodSet COLON
+                     | ID methodMap COLON'''
 
 #declarar array
 def p_arrayDeclare(p):
     '''arrayDeclare :  LBRACKET arrayValues RBRACKET
+                       | NEW ARRAY LPAREN arrayValues RPAREN
                      '''
 
     pass
@@ -132,7 +140,7 @@ def p_arrayValues(p):
 
 def p_arrayValue(p):
     ''' arrayValue :  LPAREN expression RPAREN
-                      | IDVAR
+                      | ID
                       | var
                       | NUM
                       | STRING
@@ -141,32 +149,33 @@ def p_arrayValue(p):
     pass
 
 def p_methodArray(p):
-    ''' methodArray : PERIOD PUSH LPAREN arrayValues RPAREN
-                      | PERIOD UNSHIFT LPAREN arrayValues RPAREN
+    ''' methodArray : PERIOD PUSH LPAREN arrayValue RPAREN
+                      | PERIOD UNSHIFT LPAREN arrayValue RPAREN
                       | PERIOD POP LPAREN empty RPAREN '''
 
-
-def p_callMethodsArr(p):
-    '''callMethodsArr : IDVAR methodArray '''
 
 def p_declareMap (p) :
     '''declareMap :  NEW MAP LPAREN iterable RPAREN
                     '''
 
 def p_iterable(p):
-    '''iterable  :
-                     '''
-
+    '''iterable  : arrayDeclare
+                   | setDeclare
+                   | empty '''
+#Joyce Rojas
+def p_methodMap(p):
+    '''methodMap : PERIOD CLEAR LPAREN RPAREN
+                   | PERIOD LENGTH LPAREN RPAREN '''
 
 #Tatiana Yepez para declaracion de variables
 def p_declaration(p):
-    '''declaration : var_declaration
+    '''declaration : varDeclaration
                     |declareteFunction
                     | callFunction
     '''
     pass
 
-# Para crear las funciones
+# Tatiana Yepez para crear las funciones
 def p_declareteFunction(p):
     '''' declareteFunction: FUNCTION ID LPAREN params RPAREN
                           | FUNCTION  ID LPAREN params RPAREN sentencesCmpt '''
@@ -188,9 +197,10 @@ def p_params(p):
     '''params: paramList
                | empty  '''
     pass
+
 def p_param(p):
-    ''' param: IDVAR
-              | IDVAR LBRACKET RBRACKET
+    ''' param: ID
+              | ID LBRACKET RBRACKET
                '''
     pass
 def paramList(p):
@@ -217,6 +227,35 @@ def p_constructor(p):
                     | ID LPAREN args RPAREN
     '''
     pass
+
+#Joyce Rojas - Declarar un set
+
+def declararSet(p):
+    'declararSet: NEW SET LPAREN setValues RPAREN'
+    pass
+
+def p_contiene(p):
+    'contiene: ID PERIOD HAS LPAREN parametros RPAREN'
+    return
+
+def p_setValues(p):
+    '''setValues :  setValue
+                    | setValue COMMA setValue'''
+    pass
+
+def p_setValue(p):
+    ''' setValue :    ID
+                      | var
+                      | NUM
+                      | STRING
+                      | boolean
+                      | empty '''
+    pass
+
+def p_methodSet(p):
+    ''' methodSet : PERIOD ADD LPAREN setValue RPAREN
+                      | PERIOD DELETE LPAREN setValue RPAREN
+                      | PERIOD CLEAR LPAREN empty RPAREN '''
 
 
 
