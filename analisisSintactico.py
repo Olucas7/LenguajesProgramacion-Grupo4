@@ -1,29 +1,82 @@
 import ply.yacc as yacc
 from analisisLexico import tokens
 
-#Oscar Lucas
-def p_sentencias(p):
-    '''sentencias : impresion
-                    | expression'''
 #Agregando sintaxis para una expresion Tatiana Yepez
+def p_sentencia(p) :
+    ''' sentencia :  callMethods
+                    | varType ID EQUAL callMethods
+                    | callFunction
+                    | javaScript_param
+                    | varDeclaration
+                    | controlExpression
+                    | impresion
+                    | declarateOperacion '''
 def p_expression(p):
-    '''expression : ID EQUAL expression
-                       | callMethods
-                       | callFunction
-                       | javaScript_param
-                       | varDeclaration
+    '''expression :  ID opConditional ID
+                     | ID opConditional NUM
+                     | NUM opConditional NUM
+                     | declarateOperacion
+
     '''
+    pass
+
+def p_controlExpression(p):
+    '''controlExpression : sentencias_if
+                        | sentencias_if_else
+                        | sentencias_while
+                        | impresion
+                        | impresion_vacio
+            '''
+    pass
+
+def p_opConditional(p):
+    ''' opConditional : ISEQUAL
+                      |  IS_NOT_IDENTICAL
+                      |  IS_IDENTICAL
+                      | GREATER
+                      | GREATEREQUAL
+                      | LESS
+                      | LESSEQUAL
+                      '''
+
+def p_operacionesBasicas(p) :
+    '''operacionesBasicas :  PLUS
+                            | MINUS
+                            | TIMES
+                            | DIVIDE
+                            | MOD '''
+    pass
+def p_operadorLogical(p) :
+    '''operadorLogical : AND
+                        | OR
+                        | NOT '''
+def p_declarateOperacion(p):
+     ''' declarateOperacion : factor operacionesBasicas termExpresion
+                            |  termExpresion operacionesBasicas termExpresion
+                            | factor operacionesBasicas factor
+                            | termExpresion operacionesBasicas factor
+                       '''
+     pass
+
+#Oscar Lucas
 def p_sentencias_if(p):
-    'sentencias : IF LPAREN logical_expresion RPAREN'
+    '''sentencias_if : IF LPAREN expression operadorLogical expression  RPAREN LBLOCK sentencia RBLOCK
+                    | IF LPAREN expression RPAREN LBLOCK sentencia RBLOCK'''
+
 def p_sentencias_if_else(p):
-    'sentencias : IF LPAREN logical_expresion RPAREN sentencias ELSE sentencias'
+    '''sentencias_if_else : IF LPAREN expression operadorLogical expression  RPAREN LBLOCK sentencia RBLOCK ELSE LBLOCK sentencia RBLOCK
+                          | IF LPAREN expression RPAREN LBLOCK sentencia RBLOCK ELSE LBLOCK sentencia RBLOCK '''
+
 def p_sentencias_while(p):
-    'sentencias : WHILE LPAREN logical_expresion RPAREN block'
+    '''sentencias_while : WHILE LPAREN  expression RPAREN LBLOCK sentencia RBLOCK
+                        | WHILE LPAREN  expression operadorLogical expression RPAREN LBLOCK sentencia RBLOCK'''
+
 def p_impresion(p):
-    'impresion : ALERT LPAREN expression RPAREN'
+    'impresion : ALERT LPAREN expression  RPAREN'
 def p_impresion_vacio(p):
-    'impresion : ALERT LPAREN RPAREN'
+    'impresion_vacio : ALERT LPAREN RPAREN'
     p[0] = "Impresion vacia"
+
 def p_expression_plus(p):
     'expression : expression PLUS term'
 def p_expression_times(p):
@@ -38,48 +91,54 @@ def p_expression_var(p):
 def p_expression_const(p):
     'expression : CONST ID'
 
-def p_expression_logical(p):
-    'expression : logical_expresion'
-    p[0] = p[1]
-def p_expression_greater(p):
-    'logical_expresion : expression GREATER term'
-def p_expression_less(p):
-    'logical_expresion : expression LESS term'
-def p_expression_isequal(p):
-    'logical_expresion : expression ISEQUAL term'
-def p_expression_is_not_identical(p):
-    'logical_expresion : expression IS_NOT_IDENTICAL term'
-def p_expression_is_identical(p):
-    'logical_expresion : expression IS_IDENTICAL term'
-def p_expression_block(p):
-    'expression : block'
-def p_block(p):
-    'block : LBLOCK sentencias RBLOCK'
-def p_expression_term(p):
-    'expression : term'
-    p[0] = p[1]
+def p_termExpresion(p):
+    '''termExpresion : termPlus
+                    | term_times
+                    | termMinus
+                    | term_div
+                    | term_factor'''
+
+def p_term(p):
+    ''' term : PLUS NUM
+            | MINUS NUM
+            | NUM '''
+
+
+def p_termPlus(p):
+    ''' termPlus :  term PLUS factor
+                '''
+
+def p_termMinus(p):
+    ''' termMinus :  term MINUS factor
+                '''
 
 def p_term_times(p):
-    'term : term TIMES factor'
+    'term_times : term TIMES factor'
     p[0] = p[1] * p[3]
 
 def p_term_div(p):
-    'term : term DIVIDE factor'
+    'term_div : term DIVIDE factor'
     p[0] = p[1] / p[3]
 
 def p_term_factor(p):
-    'term : factor'
+    'term_factor : factor'
     p[0] = p[1]
+
+def p_factor(p):
+    ''' factor : factor_num
+               | factor_var
+               | factor_expr '''
 
 def p_factor_num(p):
-    'factor : NUM'
+    'factor_num : NUM'
     p[0] = p[1]
 def p_factor_var(p):
-    'factor : ID'
+    'factor_var : ID'
 
 def p_factor_expr(p):
-    'factor : LPAREN expression RPAREN'
+    'factor_expr : LPAREN expression RPAREN'
     p[0] = p[2]
+
 
 # Error rule for syntax errors
 def p_error(p):
@@ -96,6 +155,7 @@ def p_javaScript_param(p):
     '''javaScript_param : STRING
                          | NUM
                          | boolean
+                         | ID
     '''
 
 
@@ -182,12 +242,14 @@ def p_declaration(p):
 # Tatiana Yepez para crear las funciones
 def p_declareteFunction(p):
     ''' declareteFunction : FUNCTION ID LPAREN params RPAREN
-                          | FUNCTION  ID LPAREN params RPAREN sentencesCmpt '''
+                          | FUNCTION  ID LPAREN params RPAREN sentencesCmpt
+                          | varType ID EQUAL FUNCTION LPAREN params RPAREN
+                          '''
     pass
 
 def p_sentencesCmpt(p):
-    '''sentencesCmpt : LBLOCK expression RBLOCK
-                     | LBLOCK expression RETURN RBLOCK  '''
+    '''sentencesCmpt : LBLOCK sentencia RBLOCK
+                     | LBLOCK sentencia RETURN RBLOCK  '''
     pass
 
 #Tatiana llamar funciones
@@ -271,6 +333,7 @@ parser.token(). This returns the next token on the input stream.
 parser.restart(). This discards the entire parsing stack and resets the parser to its initial state.
 """
 # Build the parser
+
 parser = yacc.yacc()
 while True:
     try:

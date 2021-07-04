@@ -33,7 +33,6 @@ reserved = {
     'try': 'TRY',
     'typeof': 'TYPEOF',
     'var': 'VAR',
-    'void': 'VOID',
     'while': 'WHILE',
     'with': 'WITH',
     'yield': 'YIELD',
@@ -45,7 +44,6 @@ reserved = {
     'push' : 'PUSH',
     'pop' : 'POP',
     'add' : 'ADD',
-    'delete' : 'DELETE',
     'clear' : 'CLEAR',
     'length' : 'LENGTH',
     'Array' : 'ARRAY',
@@ -94,9 +92,6 @@ t_DIV_EQUAL = r'/='
 t_MOD_EQUAL = r'%='
 
 
-#t_AND = r'&&'
-#t_OR = r'||'
-#t_NOT = r'!'
 
 t_ISEQUAL = r'=='
 t_IS_NOT_IDENTICAL = r'!='
@@ -118,13 +113,18 @@ t_COMMA = r','
 # funciones
 
 def t_AND(t):
-    r'\&\&'
+    r'\&&'
     return t
 
 
 def t_OR(t):
     r'\|\|'
     return t
+
+def t_NOT(t):
+    r'\!'
+    return t
+
 
 def t_ID(t):
     r'(\$ | _ )[A-z0-9]+ | [A-z]+\w*'
