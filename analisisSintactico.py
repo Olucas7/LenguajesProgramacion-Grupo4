@@ -1,12 +1,18 @@
 import ply.yacc as yacc
-import analisisLexico
-
+from analisisLexico import tokens
 
 #Oscar Lucas
 def p_sentencias(p):
     '''sentencias : impresion
                     | expression'''
-
+#Agregando sintaxis para una expresion Tatiana Yepez
+def p_expression(p):
+    '''expression : ID EQUAL expression
+                       | callMethods
+                       | callFunction
+                       | javaScript_param
+                       | varDeclaration
+    '''
 def p_sentencias_if(p):
     'sentencias : IF LPAREN logical_expresion RPAREN'
 def p_sentencias_if_else(p):
@@ -66,7 +72,7 @@ def p_term_factor(p):
     p[0] = p[1]
 
 def p_factor_num(p):
-    'factor : NUMBER'
+    'factor : NUM'
     p[0] = p[1]
 def p_factor_var(p):
     'factor : ID'
@@ -92,17 +98,11 @@ def p_javaScript_param(p):
                          | boolean
     '''
 
-#Agregando sintaxis para una expresion Tatiana Yepez
-def p_expression(p):
-    '''expression : ID EQUAL expression
-                       | callMethods
-                       | callFunction
-                       | javaScript_param
-    '''
-    pass
+
+
 #Tatiana Yepez para funciones o parametros vacios
 def p_empty(p):
-    '''empty :'''
+    '''empty : '''
     pass
 #Para Boolean
 
@@ -122,7 +122,7 @@ def p_varType(p):
 def p_varDeclaration(p):
     '''varDeclaration : varType ID  EQUAL  arrayDeclare COLON
                     |   varType ID EQUAL declareMap COLON
-                    |   varType ID EQUAL declareSet COLON '''
+                    |   varType ID EQUAL declararSet COLON '''
     pass
 
 #Llamar metodos de estructuras de datos
@@ -131,13 +131,13 @@ def p_callMethods(p):
                      | ID methodSet COLON
                      | ID methodMap COLON'''
 
+
 #declarar array
 def p_arrayDeclare(p):
     '''arrayDeclare :  LBRACKET arrayValues RBRACKET
                        | NEW ARRAY LPAREN arrayValues RPAREN
                      '''
 
-    pass
 
 def p_arrayValues(p):
     '''arrayValues :  arrayValue
@@ -147,12 +147,10 @@ def p_arrayValues(p):
 def p_arrayValue(p):
     ''' arrayValue :  LPAREN expression RPAREN
                       | ID
-                      | var
                       | NUM
                       | STRING
                       | boolean
                       | empty '''
-    pass
 
 def p_methodArray(p):
     ''' methodArray : PERIOD PUSH LPAREN arrayValue RPAREN
@@ -166,7 +164,7 @@ def p_declareMap (p) :
 
 def p_iterable(p):
     '''iterable  : arrayDeclare
-                   | setDeclare
+                   | declararSet
                    | empty '''
 #Joyce Rojas
 def p_methodMap(p):
@@ -176,14 +174,14 @@ def p_methodMap(p):
 #Tatiana Yepez para declaracion de variables
 def p_declaration(p):
     '''declaration : varDeclaration
-                    |declareteFunction
+                    | declareteFunction
                     | callFunction
     '''
     pass
 
 # Tatiana Yepez para crear las funciones
 def p_declareteFunction(p):
-    '''' declareteFunction: FUNCTION ID LPAREN params RPAREN
+    ''' declareteFunction : FUNCTION ID LPAREN params RPAREN
                           | FUNCTION  ID LPAREN params RPAREN sentencesCmpt '''
     pass
 
@@ -200,16 +198,16 @@ def p_callFunction(p):
     pass
 
 def p_params(p):
-    '''params: paramList
+    '''params : paramList
                | empty  '''
     pass
 
 def p_param(p):
-    ''' param: ID
+    ''' param : ID
               | ID LBRACKET RBRACKET
                '''
     pass
-def paramList(p):
+def p_paramList(p):
     '''paramList : param
                   | param COMMA paramList '''
     pass
@@ -217,7 +215,7 @@ def paramList(p):
 #Definir argumento
 
 def p_args(p):
-    ''' args: argslist
+    ''' args : argslist
             | empty
             | javaScript_param
     '''
@@ -232,12 +230,12 @@ def p_argslist(p):
 
 #Joyce Rojas - Declarar un set
 
-def declararSet(p):
-    'declararSet: NEW SET LPAREN setValues RPAREN'
+def p_declararSet(p):
+    'declararSet : NEW SET LPAREN setValues RPAREN'
     pass
 
 def p_contiene(p):
-    'contiene: ID PERIOD HAS LPAREN parametros RPAREN'
+    'contiene : ID PERIOD HAS LPAREN params RPAREN'
     return
 
 def p_setValues(p):
@@ -246,12 +244,11 @@ def p_setValues(p):
     pass
 
 def p_setValue(p):
-    ''' setValue :    ID
-                      | var
-                      | NUM
-                      | STRING
-                      | boolean
-                      | empty '''
+    ''' setValue : ID
+                 | NUM
+                 | STRING
+                 | boolean
+                 | empty '''
     pass
 
 def p_methodSet(p):
@@ -263,6 +260,7 @@ def p_methodSet(p):
 #REGLAS SEMANTICAS
 
 #TATIANA YEPEZ VERA OPERADORES MATEMATICOS
+
 
 
 
@@ -279,6 +277,7 @@ while True:
         s = input('calc > ')
     except EOFError:
         break
-    if not s: continue
+    if not s:
+        continue
     result = parser.parse(s)
     print(result)

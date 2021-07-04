@@ -1,9 +1,9 @@
 import ply.lex as lex
 
+
 # Aqui se escribira el codigo del primer avance Analisis Lexico
 # palabras reservadas principales
 reserved = {
-    'await': 'AWAIT',
     'break': 'BREAK',
     'case': 'CASE',
     'catch': 'CATCH',
@@ -24,10 +24,9 @@ reserved = {
     'import': 'IMPORT',
     'in': 'IN',
     'instanceof': 'INSTANCEOF',
-    'new': 'NEW',
+    'new' : 'NEW',
     'print': 'PRINT',
     'return': 'RETURN',
-    'super': 'SUPER',
     'switch': 'SWITCH',
     'this': 'THIS',
     'throw': 'THROW',
@@ -48,11 +47,15 @@ reserved = {
     'add' : 'ADD',
     'delete' : 'DELETE',
     'clear' : 'CLEAR',
-    'length' : 'LENGTH'
+    'length' : 'LENGTH',
+    'Array' : 'ARRAY',
+    'unshift' : 'UNSHIFT',
+     'has' : 'HAS',
+     'set' : 'SET'
 }
 # tokens
 tokens = (
-             'NUMBER',
+             'NUM',
              'PLUS',
              'MINUS',
              'TIMES',
@@ -61,6 +64,7 @@ tokens = (
              'RPAREN',
              'MOD',
              'ID',
+             'STRING',
              # Operadores de asignacion
              'EQUAL', 'PLUS_EQUAL', 'MINUS_EQUAL', 'MUL_EQUAL',
              'DIV_EQUAL', 'MOD_EQUAL',
@@ -73,6 +77,7 @@ tokens = (
              'PERIOD', 'COLON', 'LBLOCK', 'RBLOCK',
              'LBRACKET', 'RBRACKET', 'COMMA', 'TWOPOINTS'
          ) + tuple(reserved.values())
+
 t_PLUS = r'\+'
 t_MINUS = r'-'
 t_TIMES = r'\*'
@@ -126,7 +131,7 @@ def t_ID(t):
     t.type = reserved.get(t.value, 'ID')  # Check for reserved words
     return t
 # A regular expression rule with some action code
-def t_NUMBER(t):
+def t_NUM(t):
     r'\d+'
     t.value = int(t.value)
     return t
@@ -167,10 +172,23 @@ def getTokens(lexer):
         print(tok)
 # Build the lexer
 lexer = lex.lex()
-linea=" "
-while linea!="":
-    linea=input(">>")
-    lexer.input(linea)
-    getTokens(lexer)
+#linea=" "
+#while linea!="":
+ #   linea=input(">>")
+    #lexer.input(linea)
+    #getTokens(lexer)
 # Tokenize
-print("Succesfull")
+#print("Succesfull")
+
+data = ''' 89
+"asdasdasd"
+
+'''
+# Give the lexer some input
+lexer.input(data)
+# Tokenize
+while True:
+    tok = lexer.token()
+    if not tok:
+        break  # No more input
+    print(tok)
