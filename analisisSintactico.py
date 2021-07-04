@@ -1,5 +1,6 @@
 import ply.yacc as yacc
-from analisisLexico import tokens
+import analisisLexico
+
 
 #Oscar Lucas
 def p_sentencias(p):
@@ -89,11 +90,16 @@ def p_javaScript_param(p):
     '''javaScript_param : STRING
                          | NUM
                          | boolean
-                         | declareteFunction
-                         | p_callFunction
-
-
     '''
+
+#Agregando sintaxis para una expresion Tatiana Yepez
+def p_expression(p):
+    '''expression : ID EQUAL expression
+                       | callMethods
+                       | callFunction
+                       | javaScript_param
+    '''
+    pass
 #Tatiana Yepez para funciones o parametros vacios
 def p_empty(p):
     '''empty :'''
@@ -182,8 +188,8 @@ def p_declareteFunction(p):
     pass
 
 def p_sentencesCmpt(p):
-    '''sentencesCmpt : LBLOCK expresion RBLOCK
-                     | LBLOCK expresion RETURN RBLOCK  '''
+    '''sentencesCmpt : LBLOCK expression RBLOCK
+                     | LBLOCK expression RETURN RBLOCK  '''
     pass
 
 #Tatiana llamar funciones
@@ -205,7 +211,7 @@ def p_param(p):
     pass
 def paramList(p):
     '''paramList : param
-                  | param COMMA param_list '''
+                  | param COMMA paramList '''
     pass
 
 #Definir argumento
@@ -213,20 +219,16 @@ def paramList(p):
 def p_args(p):
     ''' args: argslist
             | empty
+            | javaScript_param
     '''
     pass
 def p_argslist(p):
-    '''argslist : argslist COMMA expression
-                             | expression
+    ''' argslist : args
+                   | args COMMA argslist
     '''
     pass
 
-# para constructores
-def p_constructor(p):
-    '''constructor : ID LPAREN RPAREN
-                    | ID LPAREN args RPAREN
-    '''
-    pass
+
 
 #Joyce Rojas - Declarar un set
 
@@ -257,6 +259,10 @@ def p_methodSet(p):
                       | PERIOD DELETE LPAREN setValue RPAREN
                       | PERIOD CLEAR LPAREN empty RPAREN '''
 
+
+#REGLAS SEMANTICAS
+
+#TATIANA YEPEZ VERA OPERADORES MATEMATICOS
 
 
 
