@@ -10,18 +10,20 @@ def p_sentencia(p) :
                     | varDeclaration
                     | controlExpression
                     | impresion
-                    | operacionesMath
                     | declareteFunction
+                    | assingOperadores
 
                      '''
 def p_expression(p):
     '''expression :  ID opConditional ID
                      | ID opConditional NUM
                      | NUM opConditional NUM
-                     | operacionesMath
+                     | inicializarOp
 
     '''
     pass
+def p_assingOperadores(p):
+    ''' assingOperadores : varType ID EQUAL inicializarOp  '''
 
 def p_controlExpression(p):
     '''controlExpression : sentencias_if
@@ -105,14 +107,15 @@ def p_varType(p):
 
 #para declarar variables
 def p_varDeclaration(p):
-    '''varDeclaration : varType ID  EQUAL  arrayDeclare COLON
-                    |   varType ID EQUAL declareMap COLON
-                    |   varType ID EQUAL declararSet COLON '''
+    ''' varDeclaration : varType ID  EQUAL  arrayDeclare COLON
+                    |  varType ID EQUAL declareMap COLON
+                    |  varType ID EQUAL declararSet COLON
+                    | varType ID COLON  '''
     pass
 
 #Llamar metodos de estructuras de datos
 def p_callMethods(p):
-    '''callMethods : ID methodArray COLON
+    ''' callMethods : ID methodArray COLON
                      | ID methodSet COLON
                      | ID methodMap COLON'''
 
@@ -240,16 +243,43 @@ def p_methodSet(p):
 #REGLAS SEMANTICAS
 
 # Semantica operadores Matematicos Tatiana Yepez
-def p_operacionesMath(p):
-    ''' operacionesMath :  sumas
-                          | sumas operacionesMath
-                         | restas
-                         | restas operacionesMath'''
 
-def p_sumas(p):
-    '''sumas : numOperadores PLUS LPAREN numOperadores RPAREN
+def p_inicializarOp(p):
+    ''' inicializarOp :  PLUS operacionesMath
+                        | MINUS operacionesMath
+                        | empty operacionesMath '''
+
+def p_operacionesMath(p):
+    ''' operacionesMath :  numOperadores PLUS suma
+                         | suma
+                          | suma operacionesMath
+                         | restas
+                         | numOperadores MINUS restas
+                         | restas operacionesMath
+                         | multiplicacion
+                         | numOperadores TIMES multiplicacion
+                         | multiplicacion operacionesMath'''
+
+def p_suma(p):
+    '''suma : numOperadores PLUS LPAREN numOperadores RPAREN
             | numOperadores PLUS NUM
+            | numOperadores
+
             '''
+def p_restas(p):
+    ''' restas : numOperadores MINUS LPAREN numOperadores RPAREN
+               | numOperadores  MINUS NUM
+               | numOperadores '''
+
+def p_multiplicacion (p):
+    ''' multiplicacion : numOperadores TIMES LPAREN numOperadores RPAREN
+               | numOperadores  TIMES NUM
+               | numOperadores '''
+
+def p_divicion (p):
+    ''' divicion : numOperadores DIVIDE LPAREN numOperadores RPAREN
+               | numOperadores  DIVIDE NUM
+               | numOperadores '''
 
 def p_numOperadores(p):
     ''' numOperadores : enteros
@@ -267,16 +297,8 @@ def p_decimales(p):
     '''decimales : enteros PERIOD NUM  '''
 
 
-def p_restas(p):
-    ''' restas : numOperadores MINUS LPAREN numOperadores RPAREN
-               | numOperadores  MINUS NUM '''
 
-"""
-More information on these methods is as follows:
-parser.errok(). This resets the parser state so it doesn't think it's in error-recovery mode. This will prevent an error token from being generated and will reset the internal error counters so that the next syntax error will call p_error() again.
-parser.token(). This returns the next token on the input stream.
-parser.restart(). This discards the entire parsing stack and resets the parser to its initial state.
-"""
+
 # Build the parser
 
 parser = yacc.yacc()
