@@ -10,12 +10,15 @@ def p_sentencia(p) :
                     | varDeclaration
                     | controlExpression
                     | impresion
-                    | declarateOperacion '''
+                    | operacionesMath
+                    | declareteFunction
+
+                     '''
 def p_expression(p):
     '''expression :  ID opConditional ID
                      | ID opConditional NUM
                      | NUM opConditional NUM
-                     | declarateOperacion
+                     | operacionesMath
 
     '''
     pass
@@ -38,25 +41,10 @@ def p_opConditional(p):
                       | LESS
                       | LESSEQUAL
                       '''
-
-def p_operacionesBasicas(p) :
-    '''operacionesBasicas :  PLUS
-                            | MINUS
-                            | TIMES
-                            | DIVIDE
-                            | MOD '''
-    pass
 def p_operadorLogical(p) :
     '''operadorLogical : AND
                         | OR
                         | NOT '''
-def p_declarateOperacion(p):
-     ''' declarateOperacion : factor operacionesBasicas termExpresion
-                            |  termExpresion operacionesBasicas termExpresion
-                            | factor operacionesBasicas factor
-                            | termExpresion operacionesBasicas factor
-                       '''
-     pass
 
 #Oscar Lucas
 def p_sentencias_if(p):
@@ -76,69 +64,6 @@ def p_impresion(p):
 def p_impresion_vacio(p):
     'impresion_vacio : ALERT LPAREN RPAREN'
     p[0] = "Impresion vacia"
-
-def p_expression_plus(p):
-    'expression : expression PLUS term'
-def p_expression_times(p):
-    'expression : expression TIMES term'
-def p_expression_divide(p):
-    'expression : expression DIVIDE term'
-def p_expression_mod(p):
-    'expression : expression MOD term'
-
-def p_expression_var(p):
-    'expression : VAR ID'
-def p_expression_const(p):
-    'expression : CONST ID'
-
-def p_termExpresion(p):
-    '''termExpresion : termPlus
-                    | term_times
-                    | termMinus
-                    | term_div
-                    | term_factor'''
-
-def p_term(p):
-    ''' term : PLUS NUM
-            | MINUS NUM
-            | NUM '''
-
-
-def p_termPlus(p):
-    ''' termPlus :  term PLUS factor
-                '''
-
-def p_termMinus(p):
-    ''' termMinus :  term MINUS factor
-                '''
-
-def p_term_times(p):
-    'term_times : term TIMES factor'
-    p[0] = p[1] * p[3]
-
-def p_term_div(p):
-    'term_div : term DIVIDE factor'
-    p[0] = p[1] / p[3]
-
-def p_term_factor(p):
-    'term_factor : factor'
-    p[0] = p[1]
-
-def p_factor(p):
-    ''' factor : factor_num
-               | factor_var
-               | factor_expr '''
-
-def p_factor_num(p):
-    'factor_num : NUM'
-    p[0] = p[1]
-def p_factor_var(p):
-    'factor_var : ID'
-
-def p_factor_expr(p):
-    'factor_expr : LPAREN expression RPAREN'
-    p[0] = p[2]
-
 
 # Error rule for syntax errors
 def p_error(p):
@@ -231,13 +156,6 @@ def p_methodMap(p):
     '''methodMap : PERIOD CLEAR LPAREN RPAREN
                    | PERIOD LENGTH LPAREN RPAREN '''
 
-#Tatiana Yepez para declaracion de variables
-def p_declaration(p):
-    '''declaration : varDeclaration
-                    | declareteFunction
-                    | callFunction
-    '''
-    pass
 
 # Tatiana Yepez para crear las funciones
 def p_declareteFunction(p):
@@ -298,7 +216,7 @@ def p_declararSet(p):
 
 def p_contiene(p):
     'contiene : ID PERIOD HAS LPAREN params RPAREN'
-    return
+    pass
 
 def p_setValues(p):
     '''setValues :  setValue
@@ -321,10 +239,37 @@ def p_methodSet(p):
 
 #REGLAS SEMANTICAS
 
-#TATIANA YEPEZ VERA OPERADORES MATEMATICOS
+# Semantica operadores Matematicos Tatiana Yepez
+def p_operacionesMath(p):
+    ''' operacionesMath :  sumas
+                          | sumas operacionesMath
+                         | restas
+                         | restas operacionesMath'''
+
+def p_sumas(p):
+    '''sumas : numOperadores PLUS LPAREN numOperadores RPAREN
+            | numOperadores PLUS NUM
+            '''
+
+def p_numOperadores(p):
+    ''' numOperadores : enteros
+                     |  decimales  '''
+    pass
+def p_enteros(p):
+    ''' enteros : NUM
+                 | numNegative '''
+    pass
+def p_numNegative(p):
+    '''numNegative : MINUS NUM
+                 | '''
+    pass
+def p_decimales(p):
+    '''decimales : enteros PERIOD NUM  '''
 
 
-
+def p_restas(p):
+    ''' restas : numOperadores MINUS LPAREN numOperadores RPAREN
+               | numOperadores  MINUS NUM '''
 
 """
 More information on these methods is as follows:
