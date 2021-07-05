@@ -49,7 +49,8 @@ reserved = {
     'Array' : 'ARRAY',
     'unshift' : 'UNSHIFT',
      'has' : 'HAS',
-     'set' : 'SET'
+     'set' : 'SET',
+    'get' : 'GET'
 }
 # tokens
 tokens = (

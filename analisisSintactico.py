@@ -15,7 +15,7 @@ def p_sentencia(p) :
 
                      '''
 def p_expression(p):
-    '''expression :  coditionalEspecifico
+    '''expression :  conditionalEspecifico
                      | inicializarOp
     '''
     pass
@@ -64,6 +64,8 @@ def p_impresion(p):
 def p_impresion_vacio(p):
     'impresion_vacio : ALERT LPAREN RPAREN'
     p[0] = "Impresion vacia"
+
+
 
 # Error rule for syntax errors
 def p_error(p):
@@ -298,7 +300,7 @@ def p_decimales(p):
 #Semantica boolean condiciones
 
 def p_coditionalEspecifico(p):
-    ''' conditional :  ID opConditional dataCondi
+    ''' conditionalEspecifico :  ID opConditional dataCondi
                     |  NUM opConditional NUM
                     | STRING opConditional STRING 
                     '''
@@ -307,6 +309,28 @@ def p_coditionalEspecifico(p):
 def p_dataCondi(p):
     '''dataCondi : STRING
                   | NUM '''
+
+#nivel de estructuras de datos - oscar lucas
+def p_setMetodoAdd(p):
+    'setMetodoAdd : PERIOD ADD LPAREN setValue RPAREN'
+def p_SetMetodoDelete(p):
+    'setMetodoDelete :  PERIOD DELETE LPAREN setValue RPAREN'
+def p_SetMetodoClear(p):
+    'setMetodoClear : PERIOD CLEAR LPAREN empty RPAREN '
+
+def p_ValueMapMethods(p):
+    ''' ValueMapMethods : ID
+                 | NUM
+                 | STRING
+                 | ID
+                  '''
+    pass
+def p_MapMetodoGet(p):
+    'mapMetodoGet : PEIOD GET LPAREN ValueMapMethods RPAREN'
+def p_MapMetodoSet(p):
+    'mapMetodoSet : PEIOD GET LPAREN ValueMapMethods COMMA ValueMapMethods RPAREN'
+
+
 # Build the parser
 
 parser = yacc.yacc()
