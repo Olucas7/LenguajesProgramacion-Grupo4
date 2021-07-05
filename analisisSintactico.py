@@ -15,11 +15,8 @@ def p_sentencia(p) :
 
                      '''
 def p_expression(p):
-    '''expression :  ID opConditional ID
-                     | ID opConditional NUM
-                     | NUM opConditional NUM
+    '''expression :  coditionalEspecifico
                      | inicializarOp
-
     '''
     pass
 def p_assingOperadores(p):
@@ -42,6 +39,7 @@ def p_opConditional(p):
                       | GREATEREQUAL
                       | LESS
                       | LESSEQUAL
+                      | boolean
                       '''
 def p_operadorLogical(p) :
     '''operadorLogical : AND
@@ -297,8 +295,18 @@ def p_decimales(p):
     '''decimales : enteros PERIOD NUM  '''
 
 
+#Semantica boolean condiciones
+
+def p_coditionalEspecifico(p):
+    ''' conditional :  ID opConditional dataCondi
+                    |  NUM opConditional NUM
+                    | STRING opConditional STRING 
+                    '''
 
 
+def p_dataCondi(p):
+    '''dataCondi : STRING
+                  | NUM '''
 # Build the parser
 
 parser = yacc.yacc()
