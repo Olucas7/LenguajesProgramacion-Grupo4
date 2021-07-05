@@ -217,10 +217,6 @@ def p_declararSet(p):
     'declararSet : NEW SET LPAREN setValues RPAREN'
     pass
 
-def p_contiene(p):
-    'contiene : ID PERIOD HAS LPAREN params RPAREN'
-    pass
-
 def p_setValues(p):
     '''setValues :  setValue
                     | setValue COMMA setValue'''
@@ -258,7 +254,10 @@ def p_operacionesMath(p):
                          | restas operacionesMath
                          | multiplicacion
                          | numOperadores TIMES multiplicacion
-                         | multiplicacion operacionesMath'''
+                         | multiplicacion operacionesMath
+                         | divicion
+                         | numOperadores DIVIDE divicion
+                         | divicion operacionesMath'''
 
 def p_suma(p):
     '''suma : numOperadores PLUS LPAREN numOperadores RPAREN
@@ -322,13 +321,12 @@ def p_ValueMapMethods(p):
     ''' ValueMapMethods : ID
                  | NUM
                  | STRING
-                 | ID
                   '''
     pass
 def p_MapMetodoGet(p):
-    'mapMetodoGet : PEIOD GET LPAREN ValueMapMethods RPAREN'
+    'mapMetodoGet : PERIOD GET LPAREN ValueMapMethods RPAREN'
 def p_MapMetodoSet(p):
-    'mapMetodoSet : PEIOD GET LPAREN ValueMapMethods COMMA ValueMapMethods RPAREN'
+    'mapMetodoSet : PERIOD GET LPAREN ValueMapMethods COMMA ValueMapMethods RPAREN'
 
 
 # Build the parser

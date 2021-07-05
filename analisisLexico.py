@@ -4,34 +4,13 @@ import ply.lex as lex
 # Aqui se escribira el codigo del primer avance Analisis Lexico
 # palabras reservadas principales
 reserved = {
-    'break': 'BREAK',
-    'case': 'CASE',
-    'catch': 'CATCH',
-    'class': 'CLASS',
-    'const': 'CONST',
-    'continue': 'CONTINUE',
-    'debugger': 'DEBUGGER',
-    'default': 'DEFAULT',
+    'const' : 'CONST',
     'delete': 'DELETE',
-    'do': 'DO',
     'else': 'ELSE',
-    'export': 'EXPORT',
-    'extends': 'EXTENDS',
-    'finally': 'FINALLY',
-    'for': 'FOR',
     'function': 'FUNCTION',
     'if': 'IF',
-    'import': 'IMPORT',
-    'in': 'IN',
-    'instanceof': 'INSTANCEOF',
     'new' : 'NEW',
-    'print': 'PRINT',
     'return': 'RETURN',
-    'switch': 'SWITCH',
-    'this': 'THIS',
-    'throw': 'THROW',
-    'try': 'TRY',
-    'typeof': 'TYPEOF',
     'var': 'VAR',
     'while': 'WHILE',
     'with': 'WITH',
@@ -86,11 +65,11 @@ t_RPAREN = r'\)'
 t_MOD = r'%'
 t_EQUAL = r'='
 
-t_PLUS_EQUAL = r'\+='
-t_MINUS_EQUAL = r'-='
-t_MUL_EQUAL = r'\*='
-t_DIV_EQUAL = r'/='
-t_MOD_EQUAL = r'%='
+#t_PLUS_EQUAL = r'\+='
+#t_MINUS_EQUAL = r'-='
+#t_MUL_EQUAL = r'\*='
+#t_DIV_EQUAL = r'/='
+#t_MOD_EQUAL = r'%='
 
 
 
