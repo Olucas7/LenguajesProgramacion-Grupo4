@@ -1,17 +1,17 @@
 import ply.yacc as yacc
+
 from analisisLexico import tokens
 
 #Agregando sintaxis para una expresion Tatiana Yepez
 def p_sentencia(p) :
     ''' sentencia :  callMethods
-                    | varType ID EQUAL callMethods
-                    | callFunction
-                    | javaScript_param
+                    | callFunction COLON
                     | varDeclaration
                     | controlExpression
                     | impresion
                     | declareteFunction
                     | assingOperadores
+
 
                      '''
 def p_expression(p):
@@ -88,9 +88,9 @@ def p_javaScript_param(p):
 
 
 #Tatiana Yepez para funciones o parametros vacios
-def p_empty(p):
-    '''empty : '''
-    pass
+#def p_empty(p):
+ #   '''empty : '''
+  #  pass
 #Para Boolean
 
 def p_boolean(p):
@@ -103,15 +103,24 @@ def p_varType(p):
     ''' varType : LET
                 | CONST
                 | VAR
-                 | empty '''
+              '''
+
 
 #para declarar variables
 def p_varDeclaration(p):
-    ''' varDeclaration : varType ID  EQUAL  arrayDeclare COLON
-                    |  varType ID EQUAL declareMap COLON
-                    |  varType ID EQUAL declararSet COLON
-                    | varType ID COLON  '''
+    ''' varDeclaration : varType assign
+                    | assign
+                    | LET ID COLON
+                    | VAR ID COLON
+                   '''
     pass
+def p_assign(p):
+    '''assign : ID  EQUAL  arrayDeclare COLON
+                    |  ID EQUAL declareMap COLON
+                    |  ID EQUAL declararSet COLON
+                    |  ID EQUAL javaScript_param COLON'''
+
+
 
 #Llamar metodos de estructuras de datos
 def p_callMethods(p):
@@ -122,38 +131,55 @@ def p_callMethods(p):
 
 #declarar array
 def p_arrayDeclare(p):
-    '''arrayDeclare :  LBRACKET arrayValues RBRACKET
+    '''arrayDeclare :  LBRACKET  arrayValues RBRACKET
+                       | LBRACKET  RBRACKET
                        | NEW ARRAY LPAREN arrayValues RPAREN
+                       | NEW ARRAY LPAREN  RPAREN
                      '''
 
 
 def p_arrayValues(p):
-    '''arrayValues :  arrayValue
-                    | arrayValue COMMA arrayValue'''
-    pass
+    '''arrayValues :  javaScript_param
+                    | javaScript_param COMMA arrayValues '''
 
-def p_arrayValue(p):
-    ''' arrayValue :  LPAREN expression RPAREN
-                      | ID
-                      | NUM
-                      | STRING
-                      | boolean
-                      | empty '''
+
+
 
 def p_methodArray(p):
-    ''' methodArray : PERIOD PUSH LPAREN arrayValue RPAREN
-                      | PERIOD UNSHIFT LPAREN arrayValue RPAREN
-                      | PERIOD POP LPAREN empty RPAREN '''
+    ''' methodArray : PERIOD PUSH LPAREN javaScript_param RPAREN
+                      | PERIOD UNSHIFT LPAREN javaScript_param RPAREN
+                      | PERIOD POP LPAREN  RPAREN '''
 
 
 def p_declareMap (p) :
-    '''declareMap :  NEW MAP LPAREN iterable RPAREN
+    '''declareMap :  NEW MAP LPAREN LBRACKET iterable RBRACKET RPAREN
+                    | NEW MAP LPAREN  RPAREN
                     '''
 
+def p_iterableMap(p):
+    ''' iterableMap : LBRACKET keyValue COMMA keyValue RBRACKET
+                      | LBRACKET keyValue COMMA keyValue RBRACKET COMMA iterableMap'''
+
 def p_iterable(p):
-    '''iterable  : arrayDeclare
-                   | declararSet
-                   | empty '''
+    ''' iterable : iterableMap
+                   | iterableArray
+                   | iterableSet '''
+def p_keyValue(p):
+    ''' keyValue : javaScript_param
+                  | iterableMap
+                  | iterableArray
+                  | iterableSet
+                  | declareMap
+                  | arrayDeclare '''
+
+def p_iterableArray(p):
+    ''' iterableArray :  arrayDeclare
+                       | arrayDeclare COMMA arrayDeclare '''
+
+def p_iterableSet(p):
+    ''' iterableSet : declararSet
+                     | declararSet COMMA declararSet
+                    | '''
 #Joyce Rojas
 def p_methodMap(p):
     '''methodMap : PERIOD CLEAR LPAREN RPAREN
@@ -182,24 +208,25 @@ def p_callFunction(p):
 
 def p_params(p):
     '''params : paramList
-               | empty  '''
-    pass
-
-def p_param(p):
-    ''' param : ID
-              | ID LBRACKET RBRACKET
                '''
     pass
+
+#def p_param(p):
+ #   ''' param : ID
+  #            | ID LBRACKET RBRACKET
+   #           |
+    #           '''
+    #pass
+
 def p_paramList(p):
-    '''paramList : param
-                  | param COMMA paramList '''
+    '''paramList : javaScript_param
+                  | javaScript_param COMMA paramList '''
     pass
 
 #Definir argumento
 
 def p_args(p):
     ''' args : argslist
-            | empty
             | javaScript_param
     '''
     pass
@@ -214,26 +241,30 @@ def p_argslist(p):
 #Joyce Rojas - Declarar un set
 
 def p_declararSet(p):
-    'declararSet : NEW SET LPAREN setValues RPAREN'
+    '''declararSet : NEW SET LPAREN LBRACKET iterable RBRACKET RPAREN
+                    '''
+
     pass
 
-def p_setValues(p):
-    '''setValues :  setValue
-                    | setValue COMMA setValue'''
-    pass
 
-def p_setValue(p):
-    ''' setValue : ID
-                 | NUM
-                 | STRING
-                 | boolean
-                 | empty '''
-    pass
+
+# def p_setValues(p):
+#     '''setValues :  setValue
+#                     | setValue COMMA setValue'''
+#     pass
+#
+# def p_setValue(p):
+#     ''' setValue : ID
+#                  | NUM
+#                  | STRING
+#                  | boolean
+#  '''
+#     pass
 
 def p_methodSet(p):
-    ''' methodSet : PERIOD ADD LPAREN setValue RPAREN
-                      | PERIOD DELETE LPAREN setValue RPAREN
-                      | PERIOD CLEAR LPAREN empty RPAREN '''
+    ''' methodSet : PERIOD ADD LPAREN javaScript_param RPAREN
+                      | PERIOD DELETE LPAREN javaScript_param RPAREN
+                      | PERIOD CLEAR LPAREN RPAREN '''
 
 
 #REGLAS SEMANTICAS
@@ -243,7 +274,7 @@ def p_methodSet(p):
 def p_inicializarOp(p):
     ''' inicializarOp :  PLUS operacionesMath
                         | MINUS operacionesMath
-                        | empty operacionesMath '''
+                        | operacionesMath '''
 
 def p_operacionesMath(p):
     ''' operacionesMath :  numOperadores PLUS suma
@@ -311,11 +342,11 @@ def p_dataCondi(p):
 
 #nivel de estructuras de datos - oscar lucas
 def p_setMetodoAdd(p):
-    'setMetodoAdd : PERIOD ADD LPAREN setValue RPAREN'
+    'setMetodoAdd : PERIOD ADD LPAREN javaScript_param RPAREN'
 def p_SetMetodoDelete(p):
-    'setMetodoDelete :  PERIOD DELETE LPAREN setValue RPAREN'
+    'setMetodoDelete :  PERIOD DELETE LPAREN javaScript_param RPAREN'
 def p_SetMetodoClear(p):
-    'setMetodoClear : PERIOD CLEAR LPAREN empty RPAREN '
+    'setMetodoClear : PERIOD CLEAR LPAREN RPAREN '
 
 def p_ValueMapMethods(p):
     ''' ValueMapMethods : ID
