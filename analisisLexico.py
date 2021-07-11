@@ -28,7 +28,7 @@ reserved = {
     'Array' : 'ARRAY',
     'unshift' : 'UNSHIFT',
     'has' : 'HAS',
-    'set' : 'SET',
+    'Set' : 'SET',
     'get' : 'GET'
 }
 # tokens
@@ -151,14 +151,16 @@ def getTokens(lexer):
             break  # No more input
         print(tok)
 # Build the lexer
+
 lexer = lex.lex()
 linea=" "
 while linea!="":
-  linea=input(">>")
-  lexer.input(linea)
-  getTokens(lexer)
+   linea=input(">>")
+   lexer.input(linea)
+   getTokens(lexer)
+
 # Tokenize
-print("Succesfull")
+   print("Succesfull")
 
 #data = ''' 89
 #"asdasdasd"

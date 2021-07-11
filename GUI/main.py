@@ -3,9 +3,11 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from tkinter import scrolledtext
 from analisisLexico import lexer
+from analisisLexico import getTokens
+
 window = Tk()
 window.title("LIVESCRIPT")
-window.geometry("650x575")
+window.geometry("650x560")
 window.config(bg="gold")
 
 lbl = Label(window, text="LIVESCRIPT", font=("Arial Bold", 30))
@@ -25,25 +27,20 @@ entry.place(x=5,y=130, width=400, height=300)
 botonAnalizar= tk.Button(text= "Analizar")
 botonAnalizar.place(x=180,y=450, width=80, height=60)
 
-data = entry.get()
-text_area = tk.Text()
-
 def createWindowLexico():
     newWindowLx = Tk()
     newWindowLx.geometry("380x260")
     labelLexico = tk.Label(newWindowLx, text = "Analisis lexico")
     labelLexico.pack()
-    text_area = tk.Text(newWindowLx, wrap=tk.WORD,width=30, height=10,font=("Times New Roman",15))
+    text_area = tk.Text(newWindowLx, wrap=tk.WORD, width=30, height=10, font=("Times New Roman", 15))
+    lexer.input(entry.get())
+    tok = lexer.token()
+    linea = str(tok) + "\n"
+    text_area.insert(INSERT, linea)
     text_area.pack()
     pass
 
-lexer.input(data)
-while True:
-    tok = lexer.token()
-    if not tok:
-        break
-    linea = str(tok)+"\n"
-    text_area.insert(tk.INSERT,linea)
+
 
 def createWindowSintatico():
     newWindowLx = Tk()
@@ -59,7 +56,6 @@ def createWindowSemantico():
     labelLexico.pack()
 
     pass
-
 
 botonLexico= tk.Button(text= "Analizar Lexico", command= createWindowLexico)
 botonLexico.place(x=450,y=150, width=120, height=80)

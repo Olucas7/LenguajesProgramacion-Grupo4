@@ -126,20 +126,20 @@ def p_assign(p):
 def p_callMethods(p):
     ''' callMethods : ID methodArray COLON
                      | ID methodSet COLON
-                     | ID methodMap COLON'''
+                     | ID methodMap COLON '''
 
 
 #declarar array
 def p_arrayDeclare(p):
-    '''arrayDeclare :  LBRACKET  arrayValues RBRACKET
-                       | LBRACKET  RBRACKET
+    '''arrayDeclare :  LBRACKET  RBRACKET
+                       | LBRACKET  arrayValues RBRACKET
                        | NEW ARRAY LPAREN arrayValues RPAREN
                        | NEW ARRAY LPAREN  RPAREN
                      '''
 
 
 def p_arrayValues(p):
-    '''arrayValues :  javaScript_param
+    ''' arrayValues :  javaScript_param
                     | javaScript_param COMMA arrayValues '''
 
 
@@ -241,7 +241,8 @@ def p_argslist(p):
 #Joyce Rojas - Declarar un set
 
 def p_declararSet(p):
-    '''declararSet : NEW SET LPAREN LBRACKET iterable RBRACKET RPAREN
+    ''' declararSet : NEW SET LPAREN LBRACKET iterable RBRACKET RPAREN
+
                     '''
 
     pass
@@ -341,23 +342,23 @@ def p_dataCondi(p):
                   | NUM '''
 
 #nivel de estructuras de datos - oscar lucas
-def p_setMetodoAdd(p):
-    'setMetodoAdd : PERIOD ADD LPAREN javaScript_param RPAREN'
-def p_SetMetodoDelete(p):
-    'setMetodoDelete :  PERIOD DELETE LPAREN javaScript_param RPAREN'
-def p_SetMetodoClear(p):
-    'setMetodoClear : PERIOD CLEAR LPAREN RPAREN '
+#def p_setMetodoAdd(p):
+ #   'setMetodoAdd : PERIOD ADD LPAREN javaScript_param RPAREN'
+#def p_SetMetodoDelete(p):
+ #   'setMetodoDelete :  PERIOD DELETE LPAREN javaScript_param RPAREN'
+#def p_SetMetodoClear(p):
+ #   'setMetodoClear : PERIOD CLEAR LPAREN RPAREN '
 
-def p_ValueMapMethods(p):
-    ''' ValueMapMethods : ID
-                 | NUM
-                 | STRING
-                  '''
-    pass
-def p_MapMetodoGet(p):
-    'mapMetodoGet : PERIOD GET LPAREN ValueMapMethods RPAREN'
-def p_MapMetodoSet(p):
-    'mapMetodoSet : PERIOD GET LPAREN ValueMapMethods COMMA ValueMapMethods RPAREN'
+#def p_ValueMapMethods(p):
+ #   ''' ValueMapMethods : ID
+  #               | NUM
+   #              | STRING
+    #              '''
+    #pass
+#def p_MapMetodoGet(p):
+   # 'mapMetodoGet : PERIOD GET LPAREN ValueMapMethods RPAREN'
+#def p_MapMetodoSet(p):
+ #   'mapMetodoSet : PERIOD GET LPAREN ValueMapMethods COMMA ValueMapMethods RPAREN'
 
 
 # Build the parser
