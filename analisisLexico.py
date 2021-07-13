@@ -149,7 +149,7 @@ def getTokens(lexer):
         tok = lexer.token()
         if not tok:
             break  # No more input
-        print(tok)
+        #print(tok)
 # Build the lexer
 
 lexer = lex.lex()
@@ -161,16 +161,3 @@ while linea!="":
 
 # Tokenize
    print("Succesfull")
-
-#data = ''' 89
-#"asdasdasd"
-
-#'''
-# Give the lexer some input
-#lexer.input(data)
-# Tokenize
-#while True:
-#    tok = lexer.token()
- #   if not tok:
-  #      break  # No more input
-   # print(tok)
