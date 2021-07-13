@@ -3,7 +3,7 @@ import tkinter as tk
 from PIL import ImageTk, Image
 from tkinter import scrolledtext
 from analisisLexico import lexer
-from analisisLexico import getTokens
+from analisisSintactico import parser
 
 window = Tk()
 window.title("LIVESCRIPT")
@@ -50,6 +50,12 @@ def createWindowSintatico():
     newWindowLx.geometry("350x205")
     labelLexico = tk.Label(newWindowLx, text = "Analisis Sintactico")
     labelLexico.pack()
+    text_areaS = scrolledtext.ScrolledText(newWindowLx, wrap=tk.WORD, width=30, height=10, font=("Times New Roman", 15))
+    result = parser.parse(entry.get())
+    linea = str(result) + "\n"
+    text_areaS.insert(tk.INSERT, linea)
+
+    text_areaS.pack()
 
     pass
 def createWindowSemantico():

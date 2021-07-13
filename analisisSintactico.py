@@ -98,10 +98,7 @@ def p_javaScript_param(p):
 
 
 
-#Tatiana Yepez para funciones o parametros vacios
-#def p_empty(p):
- #   '''empty : '''
-  #  pass
+
 #Para Boolean
 
 def p_boolean(p):
@@ -215,12 +212,6 @@ def p_params(p):
                '''
     pass
 
-#def p_param(p):
- #   ''' param : ID
-  #            | ID LBRACKET RBRACKET
-   #           |
-    #           '''
-    #pass
 
 def p_paramList(p):
     '''paramList : javaScript_param
@@ -253,18 +244,7 @@ def p_declararSet(p):
 
 
 
-# def p_setValues(p):
-#     '''setValues :  setValue
-#                     | setValue COMMA setValue'''
-#     pass
-#
-# def p_setValue(p):
-#     ''' setValue : ID
-#                  | NUM
-#                  | STRING
-#                  | boolean
-#  '''
-#     pass
+
 
 def p_methodSet(p):
     ''' methodSet : PERIOD ADD LPAREN javaScript_param RPAREN
@@ -368,12 +348,13 @@ def p_dataCondi(p):
 # Build the parser
 
 parser = yacc.yacc()
-while True:
-    try:
-        s = input('calc > ')
-    except EOFError:
-        break
-    if not s:
-        continue
-    result = parser.parse(s)
-    print(result)
+#while True:
+    #try:
+     #   s = input('calc > ')
+    #except EOFError:
+     #   break
+    #if not s:
+   #     continue
+  #  result = parser.parse(s)
+ #   print(result)
+#
