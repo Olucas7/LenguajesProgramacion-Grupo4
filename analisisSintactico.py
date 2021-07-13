@@ -47,22 +47,33 @@ def p_operadorLogical(p) :
                         | NOT '''
 
 #Oscar Lucas
-def p_sentencias_if(p):
-    '''sentencias_if : IF LPAREN expression operadorLogical expression  RPAREN LBLOCK sentencia RBLOCK
-                    | IF LPAREN expression RPAREN LBLOCK sentencia RBLOCK'''
+def p_sentencias_if(p): #Javascript es muy flexible con operaciones matematicas: condicion == 0 no entra caso contrario si entra.
+    '''sentencias_if : IF LPAREN expression operadorLogical expression  RPAREN cuerpo_de_sentencias
+                    | IF LPAREN expression RPAREN cuerpo_de_sentencias
+    '''
+
 
 def p_sentencias_if_else(p):
-    '''sentencias_if_else : IF LPAREN expression operadorLogical expression  RPAREN LBLOCK sentencia RBLOCK ELSE LBLOCK sentencia RBLOCK
-                          | IF LPAREN expression RPAREN LBLOCK sentencia RBLOCK ELSE LBLOCK sentencia RBLOCK '''
+    '''sentencias_if_else : IF LPAREN expression operadorLogical expression  RPAREN cuerpo_de_sentencias ELSE cuerpo_de_sentencias
+                          | IF LPAREN expression RPAREN cuerpo_de_sentencias ELSE cuerpo_de_sentencias
+    '''
+def p_cuerpo_de_sentencias(p):
+    '''cuerpo_de_sentencias : LBLOCK sentencia RBLOCK
+                            | LBLOCK RBLOCK
+                            '''
 
 def p_sentencias_while(p):
-    '''sentencias_while : WHILE LPAREN  expression RPAREN LBLOCK sentencia RBLOCK
-                        | WHILE LPAREN  expression operadorLogical expression RPAREN LBLOCK sentencia RBLOCK'''
+    '''sentencias_while : WHILE LPAREN  expression RPAREN cuerpo_de_sentencias
+                        | WHILE LPAREN  expression operadorLogical expression RPAREN cuerpo_de_sentencias
+
+    '''
 
 def p_impresion(p):
-    'impresion : ALERT LPAREN expression  RPAREN'
+    '''impresion : ALERT LPAREN expression  RPAREN COLON
+                    |
+    '''
 def p_impresion_vacio(p):
-    'impresion_vacio : ALERT LPAREN RPAREN'
+    'impresion_vacio : ALERT LPAREN RPAREN COLON'
     p[0] = "Impresion vacia"
 
 
@@ -147,12 +158,12 @@ def p_arrayValues(p):
 
 def p_methodArray(p):
     ''' methodArray : PERIOD PUSH LPAREN javaScript_param RPAREN
-                      | PERIOD UNSHIFT LPAREN javaScript_param RPAREN
+                      | PERIOD UNSHIFT LPAREN arrayValues RPAREN
                       | PERIOD POP LPAREN  RPAREN '''
 
 
 def p_declareMap (p) :
-    '''declareMap :  NEW MAP LPAREN LBRACKET iterable RBRACKET RPAREN
+    '''declareMap :  NEW MAP LPAREN LBRACKET iterableMap RBRACKET RPAREN
                     | NEW MAP LPAREN  RPAREN
                     '''
 
@@ -160,25 +171,18 @@ def p_iterableMap(p):
     ''' iterableMap : LBRACKET keyValue COMMA keyValue RBRACKET
                       | LBRACKET keyValue COMMA keyValue RBRACKET COMMA iterableMap'''
 
-def p_iterable(p):
-    ''' iterable : iterableMap
-                   | iterableArray
-                   | iterableSet '''
+
 def p_keyValue(p):
     ''' keyValue : javaScript_param
-                  | iterableMap
-                  | iterableArray
-                  | iterableSet
+                  | declararSet
                   | declareMap
                   | arrayDeclare '''
 
-def p_iterableArray(p):
-    ''' iterableArray :  arrayDeclare
-                       | arrayDeclare COMMA arrayDeclare '''
+
 
 def p_iterableSet(p):
-    ''' iterableSet : declararSet
-                     | declararSet COMMA declararSet
+    ''' iterableSet : keyValue
+                     | keyValue COMMA iterableSet
                     | '''
 #Joyce Rojas
 def p_methodMap(p):
@@ -238,12 +242,12 @@ def p_argslist(p):
 
 
 
-#Joyce Rojas - Declarar un set
+#Joyce Red's - Declarar un set
 
 def p_declararSet(p):
-    ''' declararSet : NEW SET LPAREN LBRACKET iterable RBRACKET RPAREN
-
-                    '''
+    ''' declararSet : NEW SET LPAREN RPAREN
+                    | NEW SET LPAREN LBRACKET iterableSet RBRACKET RPAREN
+    '''
 
     pass
 
