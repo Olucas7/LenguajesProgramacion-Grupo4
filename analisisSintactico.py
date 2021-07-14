@@ -9,8 +9,7 @@ def p_sentencia(p) :
                     | varDeclaration
                     | controlExpression
                     | declareteFunction
-                    | assingOperadores COLON
-                    | inicializarOp
+
 
        '''
 def p_expression(p):
@@ -19,11 +18,6 @@ def p_expression(p):
     '''
     pass
 
-def p_assingOperadores(p):
-    ''' assingOperadores :  ID EQUAL inicializarOp
-                        | varType_const ID EQUAL inicializarOp
-                        | varType_let ID EQUAL inicializarOp
-    '''
 
 def p_controlExpression(p):
     '''controlExpression : sentencias_if
@@ -103,15 +97,11 @@ def p_error(p):
 
 def p_javaScript_param(p):
     '''javaScript_param : STRING
-                         | NUM
+                         | inicializarOp
                          | boolean
                          | ID
-                         | enteros
-                         | decimales
+
     '''
-
-
-
 
 #Para Boolean
 
@@ -121,28 +111,30 @@ def p_boolean(p):
         '''
     pass
 
-def p_varType_const(p):
-    ''' varType_const : CONST
-
-    '''
 
 def p_varType_let(p):
     ''' varType_let : LET
                     | VAR
     '''
 
-
+def p_varType(p):
+    ''' varType :  varType_let
+                  | CONST '''
 #para declarar variables
 def p_varDeclaration(p):
-    ''' varDeclaration : varType_const assign
-                    | assign
+    ''' varDeclaration : varType assign COLON
+                    | assign COLON
                     | varType_let ID COLON
-                    | varType_let assign
+                    | varType_let assign COLON
     '''
     pass
+
 def p_assign(p):
-    '''assign : ID  EQUAL  estructuras_datos COLON
-                    |  ID EQUAL javaScript_param COLON'''
+    '''assign : ID  EQUAL  estructuras_datos
+                |  ID EQUAL javaScript_param
+                | ID EQUAL
+                 '''
+
 
 def p_estructuras_datos(p):
     ''' estructuras_datos : arrayDeclare
@@ -205,7 +197,7 @@ def p_iterableSet(p):
 #Joyce Rojas
 def p_methodMap(p):
     '''methodMap : PERIOD CLEAR LPAREN RPAREN
-                   | PERIOD LENGTH LPAREN RPAREN '''
+                   | PERIOD SIZE '''
 
 
 # Tatiana Yepez para crear las funciones
@@ -242,28 +234,19 @@ def p_callFunction(p):
     pass
 
 def p_params(p):
-    '''params : paramList
+    '''params :  javaScript_param
+            | javaScript_param COMMA params
                '''
     pass
 
 
-def p_paramList(p):
-    '''paramList : javaScript_param
-                  | javaScript_param COMMA paramList '''
-    pass
 
 #Definir argumento
+def p_args(p):
+    ''' args : javaScript_param
+             | javaScript_param COMMA args
+     '''
 
-# def p_args(p):
-#     ''' args : argslist
-#             | javaScript_param
-#     '''
-#     pass
-# def p_argslist(p):
-#     ''' argslist : args
-#                    | args COMMA argslist
-#     '''
-#   pass
 
 
 
@@ -291,60 +274,41 @@ def p_methodSet(p):
 # Semantica operadores Matematicos Tatiana Yepez
 
 def p_inicializarOp(p):
-    ''' inicializarOp : suma
-                    | resta '''
+    ''' inicializarOp : MINUS operacionesMath
+                    | PLUS operacionesMath
+                    | operacionesMath
+                    | numOperadores '''
 
-# def p_operacionesMath(p):
-#     ''' operacionesMath : suma
-#                          | resta '''
+def p_operacionesMath(p):
+    ''' operacionesMath :  suma
+                       | resta
+                       | multiplicacion
+                       | divicion '''
 
 def p_suma(p):
-    ''' suma : numOperadores PLUS numOperadores
-           | numOperadores PLUS LPAREN numOperadores RPAREN
+    ''' suma : numOperadores PLUS inicializarOp
+           | numOperadores PLUS LPAREN inicializarOp RPAREN
             | numOperadores PLUS suma
-            |  numOperadores PLUS LPAREN numOperadores RPAREN suma
+            |  numOperadores PLUS LPAREN inicializarOp RPAREN suma
          '''
     pass
 def p_resta(p):
-    ''' resta : numOperadores MINUS numOperadores
-             | numOperadores MINUS LPAREN numOperadores RPAREN
+    ''' resta : numOperadores MINUS inicializarOp
+             | numOperadores MINUS LPAREN inicializarOp RPAREN
              | numOperadores MINUS resta
-             | numOperadores MINUS LPAREN numOperadores RPAREN resta'''
+             | numOperadores MINUS LPAREN inicializarOp RPAREN resta'''
 
-# def p_operacionesMath(p):
-#     ''' operacionesMath :  numOperadores PLUS suma
-#                          | suma
-#                           | suma operacionesMath
-#                          | restas
-#                          | numOperadores MINUS restas
-#                          | restas operacionesMath
-#                          | multiplicacion
-#                          | numOperadores TIMES multiplicacion
-#                          | multiplicacion operacionesMath
-#                          | divicion
-#                          | numOperadores DIVIDE divicion
-#                          | divicion operacionesMath'''
 
-# def p_suma(p):
-#     '''suma : numOperadores PLUS LPAREN numOperadores RPAREN
-#             | numOperadores PLUS NUM
-#             | numOperadores
-#
-#             '''
-# def p_restas(p):
-#     ''' restas : numOperadores MINUS LPAREN numOperadores RPAREN
-#                | numOperadores  MINUS NUM
-#                | numOperadores '''
-#
-# def p_multiplicacion (p):
-#     ''' multiplicacion : numOperadores TIMES LPAREN numOperadores RPAREN
-#                | numOperadores  TIMES NUM
-#                | numOperadores '''
-#
-# def p_divicion (p):
-#     ''' divicion : numOperadores DIVIDE LPAREN numOperadores RPAREN
-#                | numOperadores  DIVIDE NUM
-#                | numOperadores '''
+def p_multiplicacion (p):
+     ''' multiplicacion : numOperadores TIMES LPAREN inicializarOp RPAREN
+                | numOperadores  TIMES  inicializarOp
+                | numOperadores  TIMES  multiplicacion
+                 '''
+
+def p_divicion (p):
+     ''' divicion : numOperadores DIVIDE LPAREN inicializarOp RPAREN
+                | numOperadores  DIVIDE inicializarOp
+                | numOperadores  DIVIDE divicion '''
 
 def p_numOperadores(p):
     ''' numOperadores : enteros
@@ -375,35 +339,16 @@ def p_dataCondi(p):
     '''dataCondi : STRING
                   | NUM '''
 
-#nivel de estructuras de datos - oscar lucas
-#def p_setMetodoAdd(p):
- #   'setMetodoAdd : PERIOD ADD LPAREN javaScript_param RPAREN'
-#def p_SetMetodoDelete(p):
- #   'setMetodoDelete :  PERIOD DELETE LPAREN javaScript_param RPAREN'
-#def p_SetMetodoClear(p):
- #   'setMetodoClear : PERIOD CLEAR LPAREN RPAREN '
-
-#def p_ValueMapMethods(p):
- #   ''' ValueMapMethods : ID
-  #               | NUM
-   #              | STRING
-    #              '''
-    #pass
-#def p_MapMetodoGet(p):
-   # 'mapMetodoGet : PERIOD GET LPAREN ValueMapMethods RPAREN'
-#def p_MapMetodoSet(p):
- #   'mapMetodoSet : PERIOD GET LPAREN ValueMapMethods COMMA ValueMapMethods RPAREN'
-
 
 # Build the parser
 
 parser = yacc.yacc()
-while True:
-    try:
-        s = input('calc > ')
-    except EOFError:
-        break
-    if not s:
-        continue
-    result = parser.parse(s)
-    print(result)
+#while True:
+#    try:
+#       s = input('calc > ')
+#    except EOFError:
+#        break
+#   if not s:
+#        continue
+#    result = parser.parse(s)
+#    print(result)

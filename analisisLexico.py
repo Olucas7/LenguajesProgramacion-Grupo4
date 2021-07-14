@@ -13,8 +13,6 @@ reserved = {
     'return': 'RETURN',
     'var': 'VAR',
     'while': 'WHILE',
-    'with': 'WITH',
-    'yield': 'YIELD',
     'alert' : 'ALERT',
     'Map' : 'MAP',
     'true': 'TRUE',
@@ -24,12 +22,10 @@ reserved = {
     'pop' : 'POP',
     'add' : 'ADD',
     'clear' : 'CLEAR',
-    'length' : 'LENGTH',
+    'size' : 'SIZE',
     'Array' : 'ARRAY',
     'unshift' : 'UNSHIFT',
-    'has' : 'HAS',
     'Set' : 'SET',
-    'get' : 'GET'
 }
 # tokens
 tokens = (
@@ -40,12 +36,10 @@ tokens = (
              'DIVIDE',
              'LPAREN',
              'RPAREN',
-             'MOD',
              'ID',
              'STRING',
              # Operadores de asignacion
-             'EQUAL', 'PLUS_EQUAL', 'MINUS_EQUAL', 'MUL_EQUAL',
-             'DIV_EQUAL', 'MOD_EQUAL',
+             'EQUAL',
              # Operadores logicos
              'AND', 'OR', 'NOT',
              # Operadores de comparacion
@@ -53,7 +47,7 @@ tokens = (
              'GREATER', 'GREATEREQUAL', 'LESS', 'LESSEQUAL', 'IS_IDENTICAL',
              # SIMBOLOS
              'PERIOD', 'COLON', 'LBLOCK', 'RBLOCK',
-             'LBRACKET', 'RBRACKET', 'COMMA', 'TWOPOINTS'
+             'LBRACKET', 'RBRACKET', 'COMMA'
          ) + tuple(reserved.values())
 
 t_PLUS = r'\+'
@@ -62,17 +56,7 @@ t_TIMES = r'\*'
 t_DIVIDE = r'/'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
-t_MOD = r'%'
 t_EQUAL = r'='
-
-#t_PLUS_EQUAL = r'\+='
-#t_MINUS_EQUAL = r'-='
-#t_MUL_EQUAL = r'\*='
-#t_DIV_EQUAL = r'/='
-#t_MOD_EQUAL = r'%='
-
-
-
 t_ISEQUAL = r'=='
 t_IS_NOT_IDENTICAL = r'!='
 t_IS_IDENTICAL = r"==="
@@ -83,7 +67,6 @@ t_LESSEQUAL = r'<='
 
 t_PERIOD = r'\.'
 t_COLON = r';'
-t_TWOPOINTS = r':'
 t_LBLOCK = r'{'
 t_RBLOCK = r'}'
 t_LBRACKET = r'\['
@@ -150,7 +133,7 @@ def getTokens(lexer):
         tok = lexer.token()
         if not tok:
             break  # No more input
-        #print(tok)
+        print(tok)
 # Build the lexer
 
 lexer = lex.lex()
