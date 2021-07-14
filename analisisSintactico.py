@@ -204,7 +204,7 @@ def p_sentencesCmpt(p):
 def p_callFunction(p):
     '''callFunction : ID LPAREN params RPAREN  
                     
-                     ''' #faltan mas maneras de llamar funciones
+                     '''
     pass
 
 def p_params(p):

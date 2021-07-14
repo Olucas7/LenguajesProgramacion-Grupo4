@@ -118,6 +118,7 @@ def t_NUM(t):
 
 def t_COMMENTS(t):
     r'\/\*([^*]|\*[^\/])*(\*)+\/'
+    print('Token de comentario')
     t.lexer.lineno += t.value.count('\n')
 
 # Define a rule so we can track line numbers
