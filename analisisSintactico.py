@@ -8,19 +8,22 @@ def p_sentencia(p) :
                     | callFunction COLON
                     | varDeclaration
                     | controlExpression
-                    | impresion
                     | declareteFunction
-                    | assingOperadores
+                    | assingOperadores COLON
+                    | inicializarOp
 
-
-                     '''
+       '''
 def p_expression(p):
     '''expression :  conditionalEspecifico
                      | inicializarOp
     '''
     pass
+
 def p_assingOperadores(p):
-    ''' assingOperadores : varType ID EQUAL inicializarOp  '''
+    ''' assingOperadores :  ID EQUAL inicializarOp
+                        | varType_const ID EQUAL inicializarOp
+                        | varType_let ID EQUAL inicializarOp
+    '''
 
 def p_controlExpression(p):
     '''controlExpression : sentencias_if
@@ -69,8 +72,17 @@ def p_sentencias_while(p):
     '''
 
 def p_impresion(p):
-    '''impresion : ALERT LPAREN expression  RPAREN COLON
-                    |
+    '''impresion : ALERT LPAREN valores_de_impresion RPAREN COLON
+
+    '''
+def p_valores_de_impresion(p):
+    '''valores_de_impresion : inicializarOp
+                              | javaScript_param
+                              | callFunction
+                              | estructuras_datos
+                              | return_ops
+
+
     '''
 def p_impresion_vacio(p):
     'impresion_vacio : ALERT LPAREN RPAREN COLON'
@@ -94,6 +106,8 @@ def p_javaScript_param(p):
                          | NUM
                          | boolean
                          | ID
+                         | enteros
+                         | decimales
     '''
 
 
@@ -107,28 +121,35 @@ def p_boolean(p):
         '''
     pass
 
-def p_varType(p):
-    ''' varType : LET
-                | CONST
-                | VAR
-              '''
+def p_varType_const(p):
+    ''' varType_const : CONST
+
+    '''
+
+def p_varType_let(p):
+    ''' varType_let : LET
+                    | VAR
+    '''
 
 
 #para declarar variables
 def p_varDeclaration(p):
-    ''' varDeclaration : varType assign
+    ''' varDeclaration : varType_const assign
                     | assign
-                    | LET ID COLON
-                    | VAR ID COLON
-                   '''
+                    | varType_let ID COLON
+                    | varType_let assign
+    '''
     pass
 def p_assign(p):
-    '''assign : ID  EQUAL  arrayDeclare COLON
-                    |  ID EQUAL declareMap COLON
-                    |  ID EQUAL declararSet COLON
+    '''assign : ID  EQUAL  estructuras_datos COLON
                     |  ID EQUAL javaScript_param COLON'''
 
+def p_estructuras_datos(p):
+    ''' estructuras_datos : arrayDeclare
+                            | declararSet
+                            | declareMap
 
+    '''
 
 #Llamar metodos de estructuras de datos
 def p_callMethods(p):
@@ -189,20 +210,33 @@ def p_methodMap(p):
 
 # Tatiana Yepez para crear las funciones
 def p_declareteFunction(p):
-    ''' declareteFunction : FUNCTION ID LPAREN params RPAREN
-                          | FUNCTION  ID LPAREN params RPAREN sentencesCmpt
-                          | varType ID EQUAL FUNCTION LPAREN params RPAREN
-                          '''
+    ''' declareteFunction : FUNCTION  ID LPAREN params RPAREN sentencesCmpt
+                          | FUNCTION  ID LPAREN RPAREN sentencesCmpt
+    '''
     pass
 
 def p_sentencesCmpt(p):
     '''sentencesCmpt : LBLOCK sentencia RBLOCK
-                     | LBLOCK sentencia RETURN RBLOCK  '''
+                     | LBLOCK RBLOCK
+                     | LBLOCK RETURN valores_de_impresion COLON RBLOCK
+                     | LBLOCK sentencia RETURN valores_de_impresion COLON RBLOCK   '''
     pass
 
+def p_return_ops(p):
+    ''' return_ops : javaScript_param
+                    | javaScript_param operadores_mat return_ops '''
+
+def p_operadores_mat(p):
+    ''' operadores_mat : PLUS
+                        | MINUS
+                        | DIVIDE
+                        | TIMES
+
+    '''
 #Tatiana llamar funciones
 def p_callFunction(p):
-    '''callFunction : ID LPAREN params RPAREN  
+    '''callFunction : ID LPAREN params RPAREN
+                    | ID LPAREN RPAREN
                     
                      '''
     pass
@@ -220,16 +254,16 @@ def p_paramList(p):
 
 #Definir argumento
 
-def p_args(p):
-    ''' args : argslist
-            | javaScript_param
-    '''
-    pass
-def p_argslist(p):
-    ''' argslist : args
-                   | args COMMA argslist
-    '''
-    pass
+# def p_args(p):
+#     ''' args : argslist
+#             | javaScript_param
+#     '''
+#     pass
+# def p_argslist(p):
+#     ''' argslist : args
+#                    | args COMMA argslist
+#     '''
+#   pass
 
 
 
@@ -257,44 +291,60 @@ def p_methodSet(p):
 # Semantica operadores Matematicos Tatiana Yepez
 
 def p_inicializarOp(p):
-    ''' inicializarOp :  PLUS operacionesMath
-                        | MINUS operacionesMath
-                        | operacionesMath '''
+    ''' inicializarOp : suma
+                    | resta '''
 
-def p_operacionesMath(p):
-    ''' operacionesMath :  numOperadores PLUS suma
-                         | suma
-                          | suma operacionesMath
-                         | restas
-                         | numOperadores MINUS restas
-                         | restas operacionesMath
-                         | multiplicacion
-                         | numOperadores TIMES multiplicacion
-                         | multiplicacion operacionesMath
-                         | divicion
-                         | numOperadores DIVIDE divicion
-                         | divicion operacionesMath'''
+# def p_operacionesMath(p):
+#     ''' operacionesMath : suma
+#                          | resta '''
 
 def p_suma(p):
-    '''suma : numOperadores PLUS LPAREN numOperadores RPAREN
-            | numOperadores PLUS NUM
-            | numOperadores
+    ''' suma : numOperadores PLUS numOperadores
+           | numOperadores PLUS LPAREN numOperadores RPAREN
+            | numOperadores PLUS suma
+            |  numOperadores PLUS LPAREN numOperadores RPAREN suma
+         '''
+    pass
+def p_resta(p):
+    ''' resta : numOperadores MINUS numOperadores
+             | numOperadores MINUS LPAREN numOperadores RPAREN
+             | numOperadores MINUS resta
+             | numOperadores MINUS LPAREN numOperadores RPAREN resta'''
 
-            '''
-def p_restas(p):
-    ''' restas : numOperadores MINUS LPAREN numOperadores RPAREN
-               | numOperadores  MINUS NUM
-               | numOperadores '''
+# def p_operacionesMath(p):
+#     ''' operacionesMath :  numOperadores PLUS suma
+#                          | suma
+#                           | suma operacionesMath
+#                          | restas
+#                          | numOperadores MINUS restas
+#                          | restas operacionesMath
+#                          | multiplicacion
+#                          | numOperadores TIMES multiplicacion
+#                          | multiplicacion operacionesMath
+#                          | divicion
+#                          | numOperadores DIVIDE divicion
+#                          | divicion operacionesMath'''
 
-def p_multiplicacion (p):
-    ''' multiplicacion : numOperadores TIMES LPAREN numOperadores RPAREN
-               | numOperadores  TIMES NUM
-               | numOperadores '''
-
-def p_divicion (p):
-    ''' divicion : numOperadores DIVIDE LPAREN numOperadores RPAREN
-               | numOperadores  DIVIDE NUM
-               | numOperadores '''
+# def p_suma(p):
+#     '''suma : numOperadores PLUS LPAREN numOperadores RPAREN
+#             | numOperadores PLUS NUM
+#             | numOperadores
+#
+#             '''
+# def p_restas(p):
+#     ''' restas : numOperadores MINUS LPAREN numOperadores RPAREN
+#                | numOperadores  MINUS NUM
+#                | numOperadores '''
+#
+# def p_multiplicacion (p):
+#     ''' multiplicacion : numOperadores TIMES LPAREN numOperadores RPAREN
+#                | numOperadores  TIMES NUM
+#                | numOperadores '''
+#
+# def p_divicion (p):
+#     ''' divicion : numOperadores DIVIDE LPAREN numOperadores RPAREN
+#                | numOperadores  DIVIDE NUM
+#                | numOperadores '''
 
 def p_numOperadores(p):
     ''' numOperadores : enteros
@@ -348,13 +398,12 @@ def p_dataCondi(p):
 # Build the parser
 
 parser = yacc.yacc()
-#while True:
-    #try:
-     #   s = input('calc > ')
-    #except EOFError:
-     #   break
-    #if not s:
-   #     continue
-  #  result = parser.parse(s)
- #   print(result)
-#
+while True:
+    try:
+        s = input('calc > ')
+    except EOFError:
+        break
+    if not s:
+        continue
+    result = parser.parse(s)
+    print(result)
